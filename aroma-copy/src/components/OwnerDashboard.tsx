@@ -1,450 +1,298 @@
-import { useState } from 'react';
-import { useApp } from '../context/AppContext';
-import { Package, Calendar, Settings, TrendingUp, CheckCircle, Clock, Truck, AlertCircle } from 'lucide-react';
-import './OwnerDashboard.css';
+import { useState } from 'react'
+import { 
+  Package, Calendar, TrendingUp, AlertTriangle, CheckCircle, Clock, 
+  Truck, Image as ImageIcon, X, Plus, Minus, Edit2, Save, Eye, EyeOff 
+} from 'lucide-react'
+import { 
+  Order, OrderStatus, ORDER_STATUS_LABELS, 
+  InventoryItem, ShopLocation, SHOPS,
+  FLOWER_SPECIES, FILLERS_FOLIAGE, WRAPPING_STYLES
+} from '../types'
+import './OwnerDashboard.css'
+
+// Mock data for demonstration
+const MOCK_ORDERS: Order[] = [
+  {
+    id: 'ORD-001',
+    userId: 'user1',
+    productType: 'bouquet',
+    occasion: 'birthday',
+    customisation: {
+      budgetTier: { amount: 500, label: '₹500', unlockedFlowers: ['seasonal', 'standard'] },
+      selectedFlowers: [{ speciesId: 'rose', color: 'red', quantity: 12 }],
+      selectedFillers: [{ fillerId: 'eucalyptus', quantity: 3 }],
+      wrappingStyle: { id: 'craft-paper', name: 'Craft Paper Wrap', basePrice: 50, productTypes: ['bouquet'] },
+      addOns: []
+    },
+    booking: {
+      dateTime: new Date('2025-01-15T10:00:00'),
+      deliveryType: 'delivery',
+      googleMapsLink: 'https://maps.google.com/?q=Nagpur',
+      whatsappNumber: '+91 99999 99999',
+      customerName: 'Priya Sharma'
+    },
+    status: 'in-progress',
+    totalPrice: 650,
+    createdAt: new Date('2025-01-10'),
+    updatedAt: new Date('2025-01-11')
+  }
+]
 
 interface OwnerDashboardProps {
-  onClose: () => void;
+  isOpen: boolean
+  onClose: () => void
 }
 
-export function OwnerDashboard({ onClose }: OwnerDashboardProps) {
-  const [activeTab, setActiveTab] = useState<'orders' | 'inventory' | 'calendar'>('orders');
-  const [selectedShop, setSelectedShop] = useState<'manish_nagar' | 'khamla'>('manish_nagar');
+export default function OwnerDashboard({ isOpen, onClose }: OwnerDashboardProps) {
+  const [activeTab, setActiveTab] = useState<'orders' | 'inventory' | 'calendar'>('orders')
+  const [selectedShop, setSelectedShop] = useState<ShopLocation>('manish-nagar')
+  const [orders, setOrders] = useState<Order[]>(MOCK_ORDERS)
+  const [inventory, setInventory] = useState<Record<string, Record<ShopLocation, { quantity: number; status: string; availableFrom?: string }>>>({})
 
-  const { orders, updateOrderStatus, uploadReadyPhoto, inventory, updateInventory } = useApp();
+  // Initialize inventory
+  useState(() => {
+    const initialInventory: typeof inventory = {}
+    FLOWER_SPECIES.forEach(flower => {
+      initialInventory[flower.id] = {
+        'manish-nagar': { quantity: 50, status: 'in-stock' },
+        'khamla': { quantity: 30, status: 'in-stock' }
+      }
+    })
+    FILLERS_FOLIAGE.forEach(filler => {
+      initialInventory[filler.id] = {
+        'manish-nagar': { quantity: 100, status: 'in-stock' },
+        'khamla': { quantity: 80, status: 'in-stock' }
+      }
+    })
+    setInventory(initialInventory)
+  })
 
-  const shopInventory = inventory.find(inv => inv.shopId === selectedShop);
+  const updateOrderStatus = (orderId: string, newStatus: OrderStatus) => {
+    setOrders(prev => prev.map(order => 
+      order.id === orderId ? { ...order, status: newStatus, updatedAt: new Date() } : order
+    ))
+  }
 
-  const getStatusIcon = (status: string) => {
+  const updateInventory = (itemId: string, shop: ShopLocation, delta: number) => {
+    setInventory(prev => {
+      const itemStock = prev[itemId]?.[shop] || { quantity: 0, status: 'out-of-stock' }
+      const newQty = Math.max(0, itemStock.quantity + delta)
+      let newStatus: string = 'in-stock'
+      if (newQty === 0) newStatus = 'out-of-stock'
+      else if (newQty < 20) newStatus = 'low-stock'
+      
+      return {
+        ...prev,
+        [itemId]: {
+          ...prev[itemId],
+          [shop]: { ...itemStock, quantity: newQty, status: newStatus }
+        }
+      }
+    })
+  }
+
+  const getStatusIcon = (status: OrderStatus) => {
     switch (status) {
-      case 'received':
-        return <AlertCircle size={18} />;
-      case 'in_progress':
-        return <Clock size={18} />;
-      case 'ready':
-        return <CheckCircle size={18} />;
-      case 'out_for_delivery':
-        return <Truck size={18} />;
-      case 'delivered':
-        return <CheckCircle size={18} />;
-      default:
-        return null;
+      case 'received': return <Clock size={18} />
+      case 'in-progress': return <Package size={18} />
+      case 'ready': return <CheckCircle size={18} />
+      case 'out-for-delivery': return <Truck size={18} />
+      case 'delivered': return <CheckCircle size={18} />
+      default: return <Clock size={18} />
     }
-  };
+  }
 
-  const getStatusLabel = (status: string) => {
-    switch (status) {
-      case 'received':
-        return 'Received';
-      case 'in_progress':
-        return 'In Progress';
-      case 'ready':
-        return 'Ready';
-      case 'out_for_delivery':
-        return 'Out for Delivery';
-      case 'delivered':
-        return 'Delivered';
-      default:
-        return status;
-    }
-  };
-
-  const handleStatusUpdate = (orderId: string, newStatus: any) => {
-    updateOrderStatus(orderId, newStatus);
-  };
-
-  const handleQuantityChange = (itemId: string, newQuantity: number) => {
-    const newLevel = newQuantity === 0 ? 'out_of_stock' : newQuantity < 20 ? 'low' : 'in_stock';
-    updateInventory(selectedShop, itemId, { quantity: newQuantity, stockLevel: newLevel });
-  };
-
-  const getStockLevelColor = (level: string) => {
-    switch (level) {
-      case 'in_stock':
-        return '#27ae60';
-      case 'low':
-        return '#f39c12';
-      case 'out_of_stock':
-        return '#e74c3c';
-      default:
-        return '#666';
-    }
-  };
+  if (!isOpen) return null
 
   return (
     <div className="dashboard-overlay">
       <div className="dashboard-modal">
         <div className="dashboard-header">
-          <div className="dashboard-title">
+          <div>
             <h2>Owner Dashboard</h2>
-            <p>Manage orders, inventory, and bookings</p>
+            <p>Aroma Flowers Corner - Management Panel</p>
           </div>
           <button className="close-btn" onClick={onClose}>
-            ✕
+            <X size={24} />
           </button>
         </div>
 
-        {/* Shop Selector */}
-        <div className="shop-selector">
-          <button
-            className={`shop-btn ${selectedShop === 'manish_nagar' ? 'active' : ''}`}
-            onClick={() => setSelectedShop('manish_nagar')}
-          >
-            📍 Manish Nagar
-          </button>
-          <button
-            className={`shop-btn ${selectedShop === 'khamla' ? 'active' : ''}`}
-            onClick={() => setSelectedShop('khamla')}
-          >
-            📍 Khamla
-          </button>
+        <div className="dashboard-nav">
+          <div className="shop-selector">
+            <label>Shop Location:</label>
+            <select value={selectedShop} onChange={(e) => setSelectedShop(e.target.value as ShopLocation)}>
+              {SHOPS.map(shop => (
+                <option key={shop.id} value={shop.id}>{shop.name}</option>
+              ))}
+            </select>
+          </div>
+          <div className="tabs">
+            <button 
+              className={`tab ${activeTab === 'orders' ? 'active' : ''}`}
+              onClick={() => setActiveTab('orders')}
+            >
+              <Package size={18} />
+              Orders
+            </button>
+            <button 
+              className={`tab ${activeTab === 'inventory' ? 'active' : ''}`}
+              onClick={() => setActiveTab('inventory')}
+            >
+              <AlertTriangle size={18} />
+              Inventory
+            </button>
+            <button 
+              className={`tab ${activeTab === 'calendar' ? 'active' : ''}`}
+              onClick={() => setActiveTab('calendar')}
+            >
+              <Calendar size={18} />
+              Calendar
+            </button>
+          </div>
         </div>
 
-        {/* Tabs */}
-        <div className="dashboard-tabs">
-          <button
-            className={`tab-btn ${activeTab === 'orders' ? 'active' : ''}`}
-            onClick={() => setActiveTab('orders')}
-          >
-            <Package size={18} />
-            Orders ({orders.length})
-          </button>
-          <button
-            className={`tab-btn ${activeTab === 'inventory' ? 'active' : ''}`}
-            onClick={() => setActiveTab('inventory')}
-          >
-            <Settings size={18} />
-            Inventory
-          </button>
-          <button
-            className={`tab-btn ${activeTab === 'calendar' ? 'active' : ''}`}
-            onClick={() => setActiveTab('calendar')}
-          >
-            <Calendar size={18} />
-            Calendar
-          </button>
-        </div>
-
-        {/* Tab Content */}
         <div className="dashboard-content">
-          {/* Orders Tab */}
           {activeTab === 'orders' && (
-            <div className="orders-tab">
-              <div className="orders-header">
-                <h3>All Orders</h3>
-                <div className="order-stats">
-                  <span className="stat">
-                    <TrendingUp size={16} />
-                    Total: {orders.length}
-                  </span>
-                </div>
-              </div>
-
-              {orders.length === 0 ? (
-                <div className="empty-state">
-                  <Package size={48} />
-                  <p>No orders yet</p>
-                </div>
-              ) : (
-                <div className="orders-list">
-                  {orders.map((order) => (
-                    <div key={order.id} className="order-card">
-                      <div className="order-header">
-                        <div className="order-id">
-                          <strong>#{order.id}</strong>
-                          <span className={`status-badge status-${order.status}`}>
-                            {getStatusIcon(order.status)}
-                            {getStatusLabel(order.status)}
-                          </span>
-                        </div>
-                        <div className="order-meta">
-                          <span>📅 {order.booking.date}</span>
-                          <span>⏰ {order.booking.time}</span>
-                          <span>💰 ₹{order.totalPrice.toLocaleString()}</span>
-                        </div>
-                      </div>
-
-                      <div className="order-details">
-                        <div className="customer-info">
-                          <strong>Customer:</strong> {order.booking.customerName}
-                          <br />
-                          <strong>WhatsApp:</strong> {order.booking.whatsappNumber}
-                          <br />
-                          <strong>Type:</strong>{' '}
-                          {order.booking.deliveryType === 'pickup'
-                            ? `Pickup from ${order.booking.pickupLocation}`
-                            : `Delivery to ${order.booking.deliveryLocation?.address}`}
-                        </div>
-
-                        <div className="customization-summary">
-                          <strong>Customization:</strong>
-                          <ul>
-                            {order.customization.selectedFlowers.map((f, idx) => (
-                              <li key={idx}>
-                                Flower × {f.quantity} (Color: {f.color})
-                              </li>
-                            ))}
-                            {order.customization.selectedFillers.map((f, idx) => (
-                              <li key={idx}>
-                                Filler × {f.quantity}
-                              </li>
-                            ))}
-                            {order.customization.wrappingStyleId && (
-                              <li>Wrapping: {order.customization.wrappingStyleId}</li>
-                            )}
-                          </ul>
-                        </div>
-
-                        {order.readyPhotoUrl && (
-                          <div className="ready-photo">
-                            <strong>Ready Photo:</strong>
-                            <img src={order.readyPhotoUrl} alt="Ready order" />
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="order-actions">
-                        <select
-                          value={order.status}
-                          onChange={(e) =>
-                            handleStatusUpdate(order.id, e.target.value as any)
-                          }
-                          className="status-select"
-                        >
-                          <option value="received">Received</option>
-                          <option value="in_progress">In Progress</option>
-                          <option value="ready">Ready</option>
-                          <option value="out_for_delivery">Out for Delivery</option>
-                          <option value="delivered">Delivered</option>
-                        </select>
-
-                        {order.status === 'ready' && !order.readyPhotoUrl && (
-                          <button
-                            className="upload-photo-btn"
-                            onClick={() => {
-                              const url = prompt('Enter photo URL:');
-                              if (url) {
-                                uploadReadyPhoto(order.id, url);
-                              }
-                            }}
-                          >
-                            📷 Upload Ready Photo
-                          </button>
-                        )}
-
-                        <a
-                          href={`https://wa.me/${order.booking.whatsappNumber.replace(/\D/g, '')}?text=${encodeURIComponent(
-                            `Hi ${order.booking.customerName}! Your order #${order.id} is now ${getStatusLabel(order.status)}. ${
-                              order.status === 'ready' && order.readyPhotoUrl
-                                ? `Here's a photo of your ready arrangement: ${order.readyPhotoUrl}`
-                                : ''
-                            } Please have it ready on time!`
-                          )}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="whatsapp-btn"
-                        >
-                          💬 WhatsApp Customer
-                        </a>
-                      </div>
+            <div className="orders-panel">
+              <h3>All Orders</h3>
+              <div className="orders-list">
+                {orders.map(order => (
+                  <div key={order.id} className="order-card">
+                    <div className="order-header">
+                      <span className="order-id">{order.id}</span>
+                      <span className={`status-badge status-${order.status}`}>
+                        {getStatusIcon(order.status)}
+                        {ORDER_STATUS_LABELS[order.status]}
+                      </span>
                     </div>
-                  ))}
-                </div>
-              )}
+                    <div className="order-details">
+                      <p><strong>Customer:</strong> {order.booking.customerName}</p>
+                      <p><strong>WhatsApp:</strong> {order.booking.whatsappNumber}</p>
+                      <p><strong>Type:</strong> {order.productType} {order.occasion && `(${order.occasion})`}</p>
+                      <p><strong>Date:</strong> {order.booking.dateTime.toLocaleDateString()}</p>
+                      <p><strong>Delivery:</strong> {order.booking.deliveryType === 'delivery' ? '🚚 Delivery' : '🏪 Pickup'}</p>
+                      {order.booking.googleMapsLink && (
+                        <p><strong>Location:</strong> <a href={order.booking.googleMapsLink} target="_blank" rel="noopener noreferrer">View on Maps</a></p>
+                      )}
+                      <p><strong>Total:</strong> ₹{order.totalPrice}</p>
+                    </div>
+                    <div className="order-actions">
+                      <select 
+                        value={order.status} 
+                        onChange={(e) => updateOrderStatus(order.id, e.target.value as OrderStatus)}
+                      >
+                        {Object.entries(ORDER_STATUS_LABELS).map(([value, label]) => (
+                          <option key={value} value={value}>{label}</option>
+                        ))}
+                      </select>
+                      {order.status === 'ready' && (
+                        <button className="upload-photo-btn">
+                          <ImageIcon size={16} />
+                          Upload Ready Photo
+                        </button>
+                      )}
+                      <a 
+                        href={`https://wa.me/${order.booking.whatsappNumber.replace('+', '')}?text=Hi ${order.booking.customerName}, your order ${order.id} is now ${ORDER_STATUS_LABELS[order.status]}.`}
+                        className="whatsapp-btn"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        WhatsApp Customer
+                      </a>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 
-          {/* Inventory Tab */}
           {activeTab === 'inventory' && (
-            <div className="inventory-tab">
-              <div className="inventory-header">
-                <h3>Inventory - {selectedShop === 'manish_nagar' ? 'Manish Nagar' : 'Khamla'}</h3>
-                <p>Track and manage stock levels in real-time</p>
+            <div className="inventory-panel">
+              <h3>Inventory Management - {SHOPS.find(s => s.id === selectedShop)?.name}</h3>
+              
+              <div className="inventory-section">
+                <h4>Flowers</h4>
+                <div className="inventory-grid">
+                  {FLOWER_SPECIES.map(flower => {
+                    const stock = inventory[flower.id]?.[selectedShop] || { quantity: 0, status: 'out-of-stock' }
+                    return (
+                      <div key={flower.id} className={`inventory-item ${stock.status}`}>
+                        <div className="item-info">
+                          <strong>{flower.name}</strong>
+                          <span className={`status-indicator ${stock.status}`}>{stock.status.replace('-', ' ')}</span>
+                        </div>
+                        <div className="item-controls">
+                          <button onClick={() => updateInventory(flower.id, selectedShop, -1)}>
+                            <Minus size={14} />
+                          </button>
+                          <span className="quantity">{stock.quantity}</span>
+                          <button onClick={() => updateInventory(flower.id, selectedShop, 1)}>
+                            <Plus size={14} />
+                          </button>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
               </div>
 
-              <div className="inventory-sections">
-                {/* Flowers */}
-                <div className="inventory-section">
-                  <h4>🌸 Flowers</h4>
-                  <div className="inventory-grid">
-                    {shopInventory?.items
-                      .filter(item => item.type === 'flower')
-                      .map(item => (
-                        <div
-                          key={item.id}
-                          className="inventory-item"
-                          style={{ borderLeftColor: getStockLevelColor(item.stockLevel) }}
-                        >
-                          <div className="item-header">
-                            <strong>{item.name}</strong>
-                            <span
-                              className="stock-badge"
-                              style={{ background: getStockLevelColor(item.stockLevel) }}
-                            >
-                              {item.stockLevel.replace('_', ' ').toUpperCase()}
-                            </span>
-                          </div>
-                          <div className="item-controls">
-                            <label>Quantity:</label>
-                            <input
-                              type="number"
-                              value={item.quantity}
-                              onChange={(e) =>
-                                handleQuantityChange(item.id, parseInt(e.target.value) || 0)
-                              }
-                              min="0"
-                            />
-                          </div>
-                          <div className="item-price">
-                            <strong>Price:</strong> ₹{item.price}/unit
-                          </div>
-                          {item.stockLevel === 'out_of_stock' && (
-                            <div className="item-availability">
-                              <label>Available From:</label>
-                              <input
-                                type="datetime-local"
-                                onChange={(e) => {
-                                  updateInventory(selectedShop, item.id, {
-                                    availableFrom: new Date(e.target.value),
-                                  });
-                                }}
-                              />
-                            </div>
-                          )}
+              <div className="inventory-section">
+                <h4>Fillers & Foliage</h4>
+                <div className="inventory-grid">
+                  {FILLERS_FOLIAGE.map(filler => {
+                    const stock = inventory[filler.id]?.[selectedShop] || { quantity: 0, status: 'out-of-stock' }
+                    return (
+                      <div key={filler.id} className={`inventory-item ${stock.status}`}>
+                        <div className="item-info">
+                          <strong>{filler.name}</strong>
+                          <span className={`status-indicator ${stock.status}`}>{stock.status.replace('-', ' ')}</span>
                         </div>
-                      ))}
-                  </div>
-                </div>
-
-                {/* Fillers */}
-                <div className="inventory-section">
-                  <h4>🌿 Fillers & Foliage</h4>
-                  <div className="inventory-grid">
-                    {shopInventory?.items
-                      .filter(item => item.type === 'filler')
-                      .map(item => (
-                        <div
-                          key={item.id}
-                          className="inventory-item"
-                          style={{ borderLeftColor: getStockLevelColor(item.stockLevel) }}
-                        >
-                          <div className="item-header">
-                            <strong>{item.name}</strong>
-                            <span
-                              className="stock-badge"
-                              style={{ background: getStockLevelColor(item.stockLevel) }}
-                            >
-                              {item.stockLevel.replace('_', ' ').toUpperCase()}
-                            </span>
-                          </div>
-                          <div className="item-controls">
-                            <label>Quantity:</label>
-                            <input
-                              type="number"
-                              value={item.quantity}
-                              onChange={(e) =>
-                                handleQuantityChange(item.id, parseInt(e.target.value) || 0)
-                              }
-                              min="0"
-                            />
-                          </div>
-                          <div className="item-price">
-                            <strong>Price:</strong> ₹{item.price}/unit
-                          </div>
+                        <div className="item-controls">
+                          <button onClick={() => updateInventory(filler.id, selectedShop, -1)}>
+                            <Minus size={14} />
+                          </button>
+                          <span className="quantity">{stock.quantity}</span>
+                          <button onClick={() => updateInventory(filler.id, selectedShop, 1)}>
+                            <Plus size={14} />
+                          </button>
                         </div>
-                      ))}
-                  </div>
-                </div>
-
-                {/* Materials */}
-                <div className="inventory-section">
-                  <h4>📦 Wrapping & Materials</h4>
-                  <div className="inventory-grid">
-                    {shopInventory?.items
-                      .filter(item => item.type === 'material')
-                      .map(item => (
-                        <div
-                          key={item.id}
-                          className="inventory-item"
-                          style={{ borderLeftColor: getStockLevelColor(item.stockLevel) }}
-                        >
-                          <div className="item-header">
-                            <strong>{item.name}</strong>
-                            <span
-                              className="stock-badge"
-                              style={{ background: getStockLevelColor(item.stockLevel) }}
-                            >
-                              {item.stockLevel.replace('_', ' ').toUpperCase()}
-                            </span>
-                          </div>
-                          <div className="item-controls">
-                            <label>Quantity:</label>
-                            <input
-                              type="number"
-                              value={item.quantity}
-                              onChange={(e) =>
-                                handleQuantityChange(item.id, parseInt(e.target.value) || 0)
-                              }
-                              min="0"
-                            />
-                          </div>
-                          <div className="item-price">
-                            <strong>Price:</strong> ₹{item.price}
-                          </div>
-                        </div>
-                      ))}
-                  </div>
+                      </div>
+                    )
+                  })}
                 </div>
               </div>
             </div>
           )}
 
-          {/* Calendar Tab */}
           {activeTab === 'calendar' && (
-            <div className="calendar-tab">
-              <div className="calendar-header">
-                <h3>Booking Calendar</h3>
-                <p>View all scheduled pickups and deliveries</p>
-              </div>
-
+            <div className="calendar-panel">
+              <h3>Booking Calendar</h3>
+              <p>View and manage all upcoming bookings.</p>
               <div className="calendar-view">
-                {orders.length === 0 ? (
-                  <div className="empty-state">
-                    <Calendar size={48} />
-                    <p>No bookings yet</p>
+                {orders.map(order => (
+                  <div key={order.id} className="calendar-event">
+                    <div className="event-date">
+                      {order.booking.dateTime.toLocaleDateString('en-IN', { 
+                        weekday: 'short', day: 'numeric', month: 'short' 
+                      })}
+                    </div>
+                    <div className="event-time">
+                      {order.booking.dateTime.toLocaleTimeString('en-IN', { 
+                        hour: '2-digit', minute: '2-digit' 
+                      })}
+                    </div>
+                    <div className="event-details">
+                      <strong>{order.booking.customerName}</strong>
+                      <p>{order.productType} - {ORDER_STATUS_LABELS[order.status]}</p>
+                      <p>{order.booking.deliveryType === 'delivery' ? '🚚 Delivery' : '🏪 Pickup at ' + (order.booking.shopLocation || 'Manish Nagar')}</p>
+                    </div>
                   </div>
-                ) : (
-                  <div className="bookings-list">
-                    {orders
-                      .sort((a, b) => new Date(a.booking.date + 'T' + a.booking.time).getTime() - 
-                                        new Date(b.booking.date + 'T' + b.booking.time).getTime())
-                      .map((order) => (
-                        <div key={order.id} className="booking-card">
-                          <div className="booking-date">
-                            <strong>{order.booking.date}</strong>
-                            <span>⏰ {order.booking.time}</span>
-                          </div>
-                          <div className="booking-info">
-                            <strong>#{order.id}</strong> - {order.booking.customerName}
-                            <br />
-                            <span className="booking-type">
-                              {order.booking.deliveryType === 'pickup'
-                                ? `📍 Pickup: ${order.booking.pickupLocation}`
-                                : `🚚 Delivery: ${order.booking.deliveryLocation?.address}`}
-                            </span>
-                          </div>
-                          <div className={`booking-status status-${order.status}`}>
-                            {getStatusLabel(order.status)}
-                          </div>
-                        </div>
-                      ))}
-                  </div>
-                )}
+                ))}
               </div>
             </div>
           )}
         </div>
       </div>
     </div>
-  );
+  )
 }
