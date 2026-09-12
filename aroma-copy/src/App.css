@@ -1,0 +1,34 @@
+/* Remove default Vite styles */
+#root {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  text-align: left;
+  border: none;
+  min-height: auto;
+}
+
+.ticks, #spacer, #center, #next-steps, .hero img.base, .hero img.framework, .hero img.vite {
+  display: none;
+}
+
+/* Smooth scroll padding for fixed header */
+html {
+  scroll-padding-top: 80px;
+}
+
+/* Mobile menu */
+@media (max-width: 768px) {
+  .nav-links.active {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--background);
+    padding: 20px;
+    gap: 15px;
+    border-bottom: 1px solid var(--border);
+  }
+}
