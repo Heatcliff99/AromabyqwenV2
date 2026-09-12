@@ -1,0 +1,548 @@
+/* Owner Dashboard Styles */
+
+.dashboard-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.dashboard-modal {
+  background: #fff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 1200px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 32px;
+  border-bottom: 1px solid #eee;
+  background: #fafafa;
+}
+
+.dashboard-title h2 {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  margin: 0;
+  color: var(--color-text);
+}
+
+.dashboard-title p {
+  margin: 4px 0 0 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.shop-selector {
+  display: flex;
+  gap: 12px;
+  padding: 16px 32px;
+  background: #f5f5f5;
+  border-bottom: 1px solid #eee;
+}
+
+.shop-btn {
+  padding: 10px 20px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.shop-btn:hover {
+  border-color: var(--color-primary);
+}
+
+.shop-btn.active {
+  border-color: var(--color-primary);
+  background: #faf8f8;
+  color: var(--color-primary);
+}
+
+.dashboard-tabs {
+  display: flex;
+  gap: 0;
+  padding: 0 32px;
+  border-bottom: 1px solid #eee;
+}
+
+.tab-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 24px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-weight: 500;
+  color: #666;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.tab-btn:hover {
+  color: var(--color-primary);
+}
+
+.tab-btn.active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+.dashboard-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 32px;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: #999;
+}
+
+.empty-state svg {
+  opacity: 0.5;
+  margin-bottom: 16px;
+}
+
+/* Orders Tab */
+
+.orders-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.orders-header h3 {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  margin: 0;
+}
+
+.order-stats {
+  display: flex;
+  gap: 16px;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: #f5f5f5;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.order-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  background: #fff;
+  transition: all 0.2s;
+}
+
+.order-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.order-id {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-received {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.status-in_progress {
+  background: #fff3e0;
+  color: #f57c00;
+}
+
+.status-ready {
+  background: #e8f5e9;
+  color: #388e3c;
+}
+
+.status-out_for_delivery {
+  background: #f3e5f5;
+  color: #7b1fa2;
+}
+
+.status-delivered {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.order-meta {
+  display: flex;
+  gap: 16px;
+  color: #666;
+  font-size: 13px;
+}
+
+.order-details {
+  margin-bottom: 16px;
+}
+
+.customer-info {
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+
+.customization-summary {
+  background: #f9f9f9;
+  padding: 12px 16px;
+  border-radius: 6px;
+}
+
+.customization-summary ul {
+  margin: 8px 0 0 0;
+  padding-left: 20px;
+}
+
+.customization-summary li {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.ready-photo {
+  margin-top: 12px;
+}
+
+.ready-photo img {
+  max-width: 200px;
+  border-radius: 6px;
+  margin-top: 8px;
+}
+
+.order-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.status-select {
+  padding: 10px 14px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.upload-photo-btn,
+.whatsapp-btn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.upload-photo-btn {
+  background: #3498db;
+  color: #fff;
+}
+
+.upload-photo-btn:hover {
+  background: #2980b9;
+}
+
+.whatsapp-btn {
+  background: #25d366;
+  color: #fff;
+}
+
+.whatsapp-btn:hover {
+  background: #1ebc57;
+}
+
+/* Inventory Tab */
+
+.inventory-header {
+  margin-bottom: 24px;
+}
+
+.inventory-header h3 {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  margin: 0 0 4px 0;
+}
+
+.inventory-header p {
+  color: #666;
+  font-size: 14px;
+  margin: 0;
+}
+
+.inventory-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.inventory-section h4 {
+  font-size: 16px;
+  margin: 0 0 16px 0;
+  color: var(--color-text);
+}
+
+.inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.inventory-item {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  background: #fff;
+  border-left: 4px solid;
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.stock-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+
+.item-controls {
+  margin-bottom: 12px;
+}
+
+.item-controls label {
+  display: block;
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.item-controls input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.item-price {
+  font-size: 14px;
+  color: #666;
+}
+
+.item-availability {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #eee;
+}
+
+.item-availability label {
+  display: block;
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.item-availability input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* Calendar Tab */
+
+.calendar-header {
+  margin-bottom: 24px;
+}
+
+.calendar-header h3 {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  margin: 0 0 4px 0;
+}
+
+.calendar-header p {
+  color: #666;
+  font-size: 14px;
+  margin: 0;
+}
+
+.bookings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.booking-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.booking-date {
+  display: flex;
+  flex-direction: column;
+  min-width: 120px;
+  padding-right: 16px;
+  border-right: 1px solid #eee;
+}
+
+.booking-date strong {
+  font-size: 16px;
+  color: var(--color-text);
+}
+
+.booking-date span {
+  font-size: 13px;
+  color: #666;
+}
+
+.booking-info {
+  flex: 1;
+  line-height: 1.6;
+}
+
+.booking-type {
+  color: #666;
+  font-size: 13px;
+}
+
+.booking-status {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+  .dashboard-header {
+    padding: 20px;
+  }
+
+  .shop-selector {
+    padding: 16px 20px;
+  }
+
+  .dashboard-tabs {
+    padding: 0 20px;
+    overflow-x: auto;
+  }
+
+  .tab-btn {
+    padding: 14px 16px;
+  }
+
+  .dashboard-content {
+    padding: 20px;
+  }
+
+  .order-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .order-meta {
+    flex-wrap: wrap;
+  }
+
+  .order-actions {
+    flex-direction: column;
+  }
+
+  .inventory-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .booking-date {
+    border-right: none;
+    border-bottom: 1px solid #eee;
+    padding-right: 0;
+    padding-bottom: 12px;
+  }
+}
