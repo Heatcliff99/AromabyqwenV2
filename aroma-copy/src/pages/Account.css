@@ -1,0 +1,325 @@
+.account-page {
+  padding: 80px 20px 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.account-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.account-header h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3rem;
+  color: #2c1810;
+  margin-bottom: 10px;
+}
+
+.account-header p {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.2rem;
+  color: #6b5b4f;
+}
+
+.account-content {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 40px;
+}
+
+.account-sidebar {
+  position: sticky;
+  top: 100px;
+  height: fit-content;
+}
+
+.account-nav {
+  background: white;
+  border-radius: 12px;
+  padding: 20px 0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.nav-item {
+  display: block;
+  font-family: 'Montserrat', sans-serif;
+  padding: 14px 25px;
+  color: #6b5b4f;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border-left: 3px solid transparent;
+}
+
+.nav-item:hover,
+.nav-item.active {
+  background: #fdf6f0;
+  color: #d4a5a5;
+  border-left-color: #d4a5a5;
+}
+
+.nav-item.logout {
+  color: #c0392b;
+  margin-top: 10px;
+  border-top: 1px solid #e8e8e8;
+}
+
+.account-main {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.account-section {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.account-section h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  color: #2c1810;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #f5e6d3;
+}
+
+.profile-card {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+}
+
+.profile-detail label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem;
+  color: #999;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.profile-detail p {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.1rem;
+  color: #2c1810;
+}
+
+.edit-profile-btn {
+  grid-column: 1 / -1;
+  font-family: 'Montserrat', sans-serif;
+  padding: 12px 30px;
+  background: #d4a5a5;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: fit-content;
+}
+
+.edit-profile-btn:hover {
+  background: #c08b8b;
+  transform: scale(1.03);
+}
+
+.orders-table {
+  overflow-x: auto;
+}
+
+.orders-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.orders-table th,
+.orders-table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.orders-table th {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  color: #2c1810;
+  font-size: 0.95rem;
+}
+
+.orders-table td {
+  font-family: 'Montserrat', sans-serif;
+  color: #4a4a4a;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.view-btn {
+  font-family: 'Montserrat', sans-serif;
+  padding: 8px 18px;
+  background: #f5e6d3;
+  color: #2c1810;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.view-btn:hover {
+  background: #d4a5a5;
+  color: white;
+}
+
+.tracking-info {
+  text-align: center;
+}
+
+.tracking-info > p {
+  font-family: 'Montserrat', sans-serif;
+  color: #6b5b4f;
+  margin-bottom: 40px;
+}
+
+.status-flow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.status-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.step-dot {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: #e8e8e8;
+  color: #999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.step-dot.received,
+.step-dot.progress {
+  background: #2c7a4b;
+  color: white;
+}
+
+.step-connector {
+  flex: 1;
+  height: 3px;
+  background: #e8e8e8;
+  margin: 0 10px;
+}
+
+.status-step p {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem;
+  color: #6b5b4f;
+  margin-top: 5px;
+}
+
+.saved-designs {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.saved-designs p {
+  font-family: 'Montserrat', sans-serif;
+  color: #6b5b4f;
+  margin-bottom: 25px;
+}
+
+.browse-btn {
+  display: inline-block;
+  font-family: 'Montserrat', sans-serif;
+  padding: 14px 35px;
+  background: #d4a5a5;
+  color: white;
+  text-decoration: none;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+}
+
+.browse-btn:hover {
+  background: #c08b8b;
+  transform: scale(1.03);
+}
+
+@media (max-width: 900px) {
+  .account-content {
+    grid-template-columns: 1fr;
+  }
+
+  .account-sidebar {
+    position: static;
+  }
+
+  .account-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .nav-item {
+    border-left: none;
+    border-bottom: 3px solid transparent;
+  }
+
+  .nav-item:hover,
+  .nav-item.active {
+    border-left: none;
+    border-bottom-color: #d4a5a5;
+  }
+
+  .status-flow {
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .step-connector {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .account-page {
+    padding: 60px 15px 30px;
+  }
+
+  .account-header h1 {
+    font-size: 2.2rem;
+  }
+
+  .account-section {
+    padding: 25px 20px;
+  }
+
+  .orders-table {
+    font-size: 0.85rem;
+  }
+
+  .profile-card {
+    grid-template-columns: 1fr;
+  }
+}

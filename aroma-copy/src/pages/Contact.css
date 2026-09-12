@@ -1,0 +1,302 @@
+.contact-page {
+  padding: 80px 20px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.contact-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.contact-header h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3.5rem;
+  color: #2c1810;
+  margin-bottom: 10px;
+}
+
+.contact-header p {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.2rem;
+  color: #6b5b4f;
+}
+
+.shops-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 40px;
+  margin-bottom: 60px;
+}
+
+.shop-card {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.shop-card h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  color: #2c1810;
+  margin-bottom: 15px;
+}
+
+.shop-address {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  color: #6b5b4f;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.shop-map {
+  margin-bottom: 20px;
+}
+
+.shop-actions {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.directions-btn,
+.call-btn {
+  font-family: 'Montserrat', sans-serif;
+  padding: 12px 25px;
+  border-radius: 25px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.directions-btn {
+  background: #d4a5a5;
+  color: white;
+}
+
+.directions-btn:hover {
+  background: #c08b8b;
+  transform: scale(1.05);
+}
+
+.call-btn {
+  border: 2px solid #2c1810;
+  color: #2c1810;
+}
+
+.call-btn:hover {
+  background: #2c1810;
+  color: white;
+}
+
+.contact-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-bottom: 60px;
+}
+
+.info-card {
+  background: linear-gradient(135deg, #fdf6f0 0%, #f5e6d3 100%);
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.info-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  color: #2c1810;
+  margin-bottom: 10px;
+}
+
+.info-card p,
+.info-card a {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.1rem;
+  color: #6b5b4f;
+}
+
+.info-card a {
+  color: #d4a5a5;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.enquiry-section {
+  background: white;
+  padding: 50px;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: 60px;
+}
+
+.enquiry-section h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.5rem;
+  color: #2c1810;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.success-message {
+  text-align: center;
+  padding: 40px;
+  background: #f0f9f4;
+  border-radius: 12px;
+}
+
+.success-message h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  color: #2c7a4b;
+  margin-bottom: 10px;
+}
+
+.success-message p {
+  font-family: 'Montserrat', sans-serif;
+  color: #4a4a4a;
+}
+
+.enquiry-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-group label {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  color: #2c1810;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 14px 18px;
+  border: 2px solid #e8e8e8;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #d4a5a5;
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+.form-row {
+  display: contents;
+}
+
+.submit-btn {
+  grid-column: 1 / -1;
+  font-family: 'Montserrat', sans-serif;
+  padding: 16px 50px;
+  background: #d4a5a5;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.submit-btn:hover {
+  background: #c08b8b;
+  transform: scale(1.03);
+}
+
+.feedback-section {
+  margin-bottom: 40px;
+}
+
+.feedback-section h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.5rem;
+  color: #2c1810;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.feedback-widget {
+  background: #fdf6f0;
+  padding: 30px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.rating-stars {
+  color: #f4a460;
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  letter-spacing: 5px;
+}
+
+.feedback-widget p {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.1rem;
+  color: #4a4a4a;
+  font-style: italic;
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+.customer-name {
+  font-family: 'Montserrat', sans-serif;
+  color: #6b5b4f;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .contact-page {
+    padding: 60px 15px 30px;
+  }
+
+  .contact-header h1 {
+    font-size: 2.5rem;
+  }
+
+  .shops-section {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-info {
+    grid-template-columns: 1fr;
+  }
+
+  .enquiry-section {
+    padding: 30px 20px;
+  }
+
+  .enquiry-form {
+    grid-template-columns: 1fr;
+  }
+
+  .feedback-section h2 {
+    font-size: 2rem;
+  }
+}

@@ -1,0 +1,442 @@
+.home-page {
+  overflow-x: hidden;
+}
+
+/* Hero Section */
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.6);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: white;
+  max-width: 800px;
+  padding: 40px;
+}
+
+.hero-subtitle {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  opacity: 0.95;
+}
+
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 5rem;
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+
+.hero-description {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.2rem;
+  line-height: 1.8;
+  margin-bottom: 40px;
+  opacity: 0.95;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  font-family: 'Montserrat', sans-serif;
+  padding: 16px 40px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.btn-primary {
+  background: #d4a5a5;
+  color: white;
+  border: 2px solid #d4a5a5;
+}
+
+.btn-primary:hover {
+  background: #c08b8b;
+  transform: scale(1.05);
+}
+
+.btn-outline {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.btn-outline:hover {
+  background: white;
+  color: #2c1810;
+}
+
+/* Sections */
+.section {
+  padding: 80px 20px;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.section-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #d4a5a5;
+  margin-bottom: 15px;
+}
+
+.section-header h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3rem;
+  color: #2c1810;
+  margin-bottom: 15px;
+}
+
+/* Season's Pick */
+.seasons-pick {
+  background: #fdf6f0;
+}
+
+.featured-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  align-items: center;
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.featured-card img {
+  width: 100%;
+  height: 600px;
+  object-fit: cover;
+}
+
+.featured-content {
+  padding: 50px;
+}
+
+.featured-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #d4a5a5;
+  margin-bottom: 15px;
+}
+
+.featured-content h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.8rem;
+  color: #2c1810;
+  margin-bottom: 20px;
+}
+
+.featured-content p {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.05rem;
+  color: #6b5b4f;
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+.featured-price {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2rem;
+  color: #d4a5a5;
+  font-weight: 600;
+  margin-bottom: 30px;
+}
+
+/* Season's Edit */
+.seasons-edit {
+  background: linear-gradient(135deg, #f5e6d3 0%, #fdf6f0 100%);
+  text-align: center;
+}
+
+.edit-content {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.edit-label {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #d4a5a5;
+  margin-bottom: 15px;
+}
+
+.edit-content h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.8rem;
+  color: #2c1810;
+  margin-bottom: 25px;
+}
+
+.edit-content p {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.1rem;
+  color: #6b5b4f;
+  line-height: 1.8;
+  margin-bottom: 30px;
+}
+
+.read-more {
+  font-family: 'Montserrat', sans-serif;
+  color: #d4a5a5;
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.read-more:hover {
+  color: #c08b8b;
+  gap: 12px;
+}
+
+/* In Season Now */
+.in-season {
+  background: white;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 30px;
+}
+
+.product-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.product-image {
+  position: relative;
+  height: 400px;
+  overflow: hidden;
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-image img {
+  transform: scale(1.08);
+}
+
+.category-tag {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.85rem;
+  color: #2c1810;
+  font-weight: 600;
+}
+
+.product-info {
+  padding: 25px;
+  text-align: center;
+}
+
+.product-info h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  color: #2c1810;
+  margin-bottom: 10px;
+}
+
+.product-price {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.3rem;
+  color: #d4a5a5;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.view-btn {
+  font-family: 'Montserrat', sans-serif;
+  display: inline-block;
+  padding: 12px 30px;
+  border: 2px solid #d4a5a5;
+  color: #d4a5a5;
+  text-decoration: none;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+}
+
+.view-btn:hover {
+  background: #d4a5a5;
+  color: white;
+}
+
+/* Builder Promo */
+.builder-promo {
+  background: linear-gradient(135deg, #d4a5a5 0%, #c08b8b 100%);
+  text-align: center;
+  color: white;
+}
+
+.promo-content {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.promo-content h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.promo-content p {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.15rem;
+  line-height: 1.8;
+  margin-bottom: 35px;
+  opacity: 0.95;
+}
+
+.promo-content .btn-primary {
+  background: white;
+  color: #2c1810;
+  border-color: white;
+}
+
+.promo-content .btn-primary:hover {
+  background: #fdf6f0;
+}
+
+/* Testimonials */
+.testimonials {
+  background: #fdf6f0;
+}
+
+.testimonials-slider {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 30px;
+}
+
+.testimonial-card {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+  text-align: center;
+}
+
+.testimonial-stars {
+  color: #f4a460;
+  font-size: 1.5rem;
+  letter-spacing: 3px;
+  margin-bottom: 20px;
+}
+
+.testimonial-quote {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.1rem;
+  color: #4a4a4a;
+  line-height: 1.8;
+  font-style: italic;
+  margin-bottom: 25px;
+}
+
+.testimonial-author {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  color: #2c1810;
+  margin-bottom: 5px;
+}
+
+.testimonial-occasion {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem;
+  color: #d4a5a5;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 3rem;
+  }
+
+  .hero-description {
+    font-size: 1rem;
+  }
+
+  .featured-card {
+    grid-template-columns: 1fr;
+  }
+
+  .featured-card img {
+    height: 400px;
+  }
+
+  .section-header h2 {
+    font-size: 2.2rem;
+  }
+
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .testimonials-slider {
+    grid-template-columns: 1fr;
+  }
+}
