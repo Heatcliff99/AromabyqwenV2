@@ -325,3 +325,52 @@ export interface DashboardStats {
   lowStockItems: number;
   outOfStockItems: number;
 }
+
+// Export constants for use in components
+export const FLOWERS = FLOWER_SPECIES;
+export const FILLERS = FILLERS_FOLIAGE;
+export const PRODUCT_TYPES = PRODUCT_CATEGORIES;
+
+// Sample products for collection page
+export interface Product {
+  id: string;
+  name: string;
+  price: number;
+  image: string;
+  category: string;
+}
+
+export const products: Product[] = [
+  { id: 'prod1', name: 'Rose Bouquet', price: 899, image: 'https://images.unsplash.com/photo-1563241527-300e278d9f41?w=500&h=600&fit=crop', category: 'bouquets' },
+  { id: 'prod2', name: 'Peony Arrangement', price: 1299, image: 'https://images.unsplash.com/photo-1562690868-60bbe7293e94?w=500&h=600&fit=crop', category: 'bouquets' },
+  { id: 'prod3', name: 'Lavender Bundle', price: 599, image: 'https://images.unsplash.com/photo-1499914485622-a88fac536970?w=500&h=600&fit=crop', category: 'bouquets' },
+  { id: 'prod4', name: 'Wedding Varmala', price: 5000, image: 'https://images.unsplash.com/photo-1518709322009-8f85eb2b8b2e?w=500&h=600&fit=crop', category: 'varmalas' },
+  { id: 'prod5', name: 'Floral Jewellery Set', price: 2500, image: 'https://images.unsplash.com/photo-1523694576729-dc78a7a88ddc?w=500&h=600&fit=crop', category: 'jewellery' },
+  { id: 'prod6', name: 'Event Décor Package', price: 15000, image: 'https://images.unsplash.com/photo-1516196182-6c6df6cb91b7?w=500&h=600&fit=crop', category: 'decor' }
+];
+
+// Occasions with gallery images
+export interface OccasionWithGallery extends Occasion {
+  gallery?: string[];
+}
+
+export const occasions: OccasionWithGallery[] = OCCASIONS.map(occ => ({
+  ...occ,
+  gallery: [
+    'https://images.unsplash.com/photo-1519225421980-715cb0202128?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1519741497674-611481863552?w=400&h=300&fit=crop',
+    'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=400&h=300&fit=crop'
+  ]
+}));
+
+// Shop locations with embed maps
+export interface ShopLocationWithEmbed extends ShopInfo {
+  mapEmbed: string;
+  mapLink: string;
+}
+
+export const shopLocations: ShopLocationWithEmbed[] = SHOPS.map(shop => ({
+  ...shop,
+  mapEmbed: `https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=${encodeURIComponent(shop.address)}`,
+  mapLink: shop.mapUrl
+}));

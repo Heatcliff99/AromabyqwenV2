@@ -1,0 +1,234 @@
+.journal-page {
+  padding: 80px 20px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.journal-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.journal-header h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3.5rem;
+  color: #2c1810;
+  margin-bottom: 10px;
+}
+
+.journal-header p {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.2rem;
+  color: #6b5b4f;
+}
+
+.brand-story {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  align-items: center;
+  margin-bottom: 80px;
+  background: white;
+  padding: 50px;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.story-content h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.5rem;
+  color: #2c1810;
+  margin-bottom: 25px;
+}
+
+.story-content p {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #4a4a4a;
+  margin-bottom: 20px;
+}
+
+.story-image img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.process-section {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.process-section h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.8rem;
+  color: #2c1810;
+  margin-bottom: 50px;
+}
+
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.process-card {
+  background: #fdf6f0;
+  padding: 40px 25px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.process-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+}
+
+.process-icon {
+  font-size: 3.5rem;
+  margin-bottom: 20px;
+}
+
+.process-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  color: #2c1810;
+  margin-bottom: 15px;
+}
+
+.process-card p {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.95rem;
+  color: #6b5b4f;
+  line-height: 1.6;
+}
+
+.trust-badges {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 30px;
+  padding: 50px 20px;
+  background: linear-gradient(135deg, #d4a5a5 0%, #c08b8b 100%);
+  border-radius: 15px;
+  margin-bottom: 80px;
+}
+
+.badge {
+  text-align: center;
+  color: white;
+}
+
+.badge h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.badge p {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  opacity: 0.95;
+}
+
+.blog-section {
+  margin-bottom: 40px;
+}
+
+.blog-section h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.5rem;
+  color: #2c1810;
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+}
+
+.blog-post {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.blog-post:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.blog-post img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.blog-content {
+  padding: 25px;
+}
+
+.blog-content h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  color: #2c1810;
+  margin-bottom: 12px;
+}
+
+.blog-content p {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.95rem;
+  color: #6b5b4f;
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+.read-more {
+  font-family: 'Montserrat', sans-serif;
+  color: #d4a5a5;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.read-more:hover {
+  color: #c08b8b;
+}
+
+@media (max-width: 768px) {
+  .journal-page {
+    padding: 60px 15px 30px;
+  }
+
+  .journal-header h1 {
+    font-size: 2.5rem;
+  }
+
+  .brand-story {
+    grid-template-columns: 1fr;
+    padding: 30px;
+  }
+
+  .story-image img {
+    height: 300px;
+  }
+
+  .process-section h2 {
+    font-size: 2rem;
+  }
+
+  .trust-badges {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .blog-grid {
+    grid-template-columns: 1fr;
+  }
+}
