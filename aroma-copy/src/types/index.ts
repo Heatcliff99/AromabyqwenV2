@@ -255,7 +255,9 @@ export interface CustomisationSelection {
 
 // Booking Details
 export interface BookingDetails {
-  dateTime: Date;
+  date: string;
+  time: string;
+  dateTime?: Date;
   deliveryType: 'delivery' | 'pickup';
   shopLocation?: ShopLocation;
   googleMapsLink?: string;
@@ -324,6 +326,33 @@ export interface DashboardStats {
   monthlyRevenue: number;
   lowStockItems: number;
   outOfStockItems: number;
+}
+
+// Customization State
+export interface CustomizationState {
+  productType: ProductType | null;
+  budgetTier: number | null;
+  selectedFlowers: Array<{
+    speciesId: string;
+    color: string;
+    quantity: number;
+  }>;
+  selectedFillers: Array<{
+    fillerId: string;
+    quantity: number;
+  }>;
+  wrappingStyle: string | null;
+  ribbonColor?: string;
+  addOns: AddOn[];
+  inspirationImage?: string;
+  visionNote?: string;
+}
+
+// Shop Inventory
+export interface ShopInventory {
+  id: string;
+  shopId: ShopLocation;
+  items: InventoryItem[];
 }
 
 // Export constants for use in components

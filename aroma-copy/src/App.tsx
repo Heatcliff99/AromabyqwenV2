@@ -80,7 +80,7 @@ function App() {
               <button className="modal-close" onClick={() => setShowDashboard(false)}>
                 <X size={24} />
               </button>
-              <OwnerDashboard />
+              <OwnerDashboard isOpen={true} onClose={() => setShowDashboard(false)} />
             </div>
           </div>
         )}

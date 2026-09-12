@@ -1,13 +1,10 @@
 import { useState } from 'react'
 import { 
-  Package, Calendar, TrendingUp, AlertTriangle, CheckCircle, Clock, 
-  Truck, Image as ImageIcon, X, Plus, Minus, Edit2, Save, Eye, EyeOff 
+  Package, Calendar, AlertTriangle, CheckCircle, Clock, 
+  Truck, Image as ImageIcon, X, Plus, Minus
 } from 'lucide-react'
-import { 
-  Order, OrderStatus, ORDER_STATUS_LABELS, 
-  InventoryItem, ShopLocation, SHOPS,
-  FLOWER_SPECIES, FILLERS_FOLIAGE, WRAPPING_STYLES
-} from '../types'
+import type { Order, OrderStatus, ShopLocation } from '../types'
+import { ORDER_STATUS_LABELS, SHOPS, FLOWER_SPECIES, FILLERS_FOLIAGE } from '../types'
 import './OwnerDashboard.css'
 
 // Mock data for demonstration
@@ -25,6 +22,8 @@ const MOCK_ORDERS: Order[] = [
       addOns: []
     },
     booking: {
+      date: '2025-01-15',
+      time: '10:00',
       dateTime: new Date('2025-01-15T10:00:00'),
       deliveryType: 'delivery',
       googleMapsLink: 'https://maps.google.com/?q=Nagpur',
@@ -169,7 +168,7 @@ export default function OwnerDashboard({ isOpen, onClose }: OwnerDashboardProps)
                       <p><strong>Customer:</strong> {order.booking.customerName}</p>
                       <p><strong>WhatsApp:</strong> {order.booking.whatsappNumber}</p>
                       <p><strong>Type:</strong> {order.productType} {order.occasion && `(${order.occasion})`}</p>
-                      <p><strong>Date:</strong> {order.booking.dateTime.toLocaleDateString()}</p>
+                      <p><strong>Date:</strong> {order.booking.dateTime ? order.booking.dateTime.toLocaleDateString() : `${order.booking.date} at ${order.booking.time}`}</p>
                       <p><strong>Delivery:</strong> {order.booking.deliveryType === 'delivery' ? '🚚 Delivery' : '🏪 Pickup'}</p>
                       {order.booking.googleMapsLink && (
                         <p><strong>Location:</strong> <a href={order.booking.googleMapsLink} target="_blank" rel="noopener noreferrer">View on Maps</a></p>
@@ -272,14 +271,14 @@ export default function OwnerDashboard({ isOpen, onClose }: OwnerDashboardProps)
                 {orders.map(order => (
                   <div key={order.id} className="calendar-event">
                     <div className="event-date">
-                      {order.booking.dateTime.toLocaleDateString('en-IN', { 
+                      {order.booking.dateTime ? order.booking.dateTime.toLocaleDateString('en-IN', { 
                         weekday: 'short', day: 'numeric', month: 'short' 
-                      })}
+                      }) : order.booking.date}
                     </div>
                     <div className="event-time">
-                      {order.booking.dateTime.toLocaleTimeString('en-IN', { 
+                      {order.booking.dateTime ? order.booking.dateTime.toLocaleTimeString('en-IN', { 
                         hour: '2-digit', minute: '2-digit' 
-                      })}
+                      }) : order.booking.time}
                     </div>
                     <div className="event-details">
                       <strong>{order.booking.customerName}</strong>

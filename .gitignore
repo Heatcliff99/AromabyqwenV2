@@ -2,47 +2,21 @@
 # Dependencies
 node_modules/
 
-# Build artifacts
+# Build outputs
 dist/
 build/
-target/
+*.js.map
+*.tsbuildinfo
 
-# Python cache
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-
-# Environment variables
+# Environment
 .env
 .env.local
-.env.*
-
-# IDE files
-.vscode/
-.idea/
-*.swp
-*.swo
+*.env.*
 
 # Logs
 *.log
 
 # Coverage
 coverage/
-htmlcov/
-.coverage
-
-# Temporary files
-*.tmp
-*.temp
-
-# OS generated files
-.DS_Store
-Thumbs.db
-
-# MyPy cache
-.mypy_cache/
-
-# PyTest cache
-.pytest_cache/
+.nyc_output/
 ```
