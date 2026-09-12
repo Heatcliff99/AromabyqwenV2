@@ -11,12 +11,12 @@ import { FLOWERS, FILLERS, WRAPPING_STYLES, BUDGET_TIERS } from '../types';
 
 interface AppContextType {
   // Customization
-  customization: CustomizationState;
+  customisation: CustomizationState;
   setProductType: (type: ProductType) => void;
   setBudgetTier: (amount: number | null) => void;
-  addFlower: (flowerId: string, color: string, quantity: number) => void;
-  removeFlower: (flowerId: string, color: string) => void;
-  updateFlowerQuantity: (flowerId: string, color: string, quantity: number) => void;
+  addFlower: (speciesId: string, color: string, quantity: number) => void;
+  removeFlower: (speciesId: string, color: string) => void;
+  updateFlowerQuantity: (speciesId: string, color: string, quantity: number) => void;
   addFiller: (fillerId: string, quantity: number) => void;
   removeFiller: (fillerId: string) => void;
   updateFillerQuantity: (fillerId: string, quantity: number) => void;
@@ -58,12 +58,12 @@ const formatSlotKey = (date: string, time: string) => `${date}T${time}`;
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   // Customization state
-  const [customization, setCustomization] = useState<CustomizationState>({
+  const [customisation, setCustomization] = useState<CustomizationState>({
     productType: 'bouquet',
     budgetTier: null,
     selectedFlowers: [],
     selectedFillers: [],
-    wrappingStyleId: null,
+    wrappingStyle: null,
   });
 
   // Booking state
@@ -78,7 +78,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   // Inventory state (two shops)
   const [inventory, setInventory] = useState<ShopInventory[]>([
     {
-      shopId: 'manish_nagar',
+      shopId: 'manish-nagar',
       items: [
         ...FLOWERS.map(f => ({
           id: f.id,
@@ -142,15 +142,15 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     let total = 0;
 
     // Add flower costs
-    customization.selectedFlowers.forEach(({ flowerId, quantity }) => {
-      const flower = FLOWERS.find(f => f.id === flowerId);
+    customisation.selectedFlowers.forEach(({ speciesId, quantity }) => {
+      const flower = FLOWERS.find(f => f.id === speciesId);
       if (flower) {
         total += flower.basePrice * quantity;
       }
     });
 
     // Add filler costs
-    customization.selectedFillers.forEach(({ fillerId, quantity }) => {
+    customisation.selectedFillers.forEach(({ fillerId, quantity }) => {
       const filler = FILLERS.find(f => f.id === fillerId);
       if (filler) {
         total += filler.price * quantity;
@@ -158,22 +158,22 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     });
 
     // Add wrapping cost
-    if (customization.wrappingStyleId) {
-      const wrapping = WRAPPING_STYLES.find(w => w.id === customization.wrappingStyleId);
+    if (customisation.wrappingStyle) {
+      const wrapping = WRAPPING_STYLES.find(w => w.id === customisation.wrappingStyle);
       if (wrapping) {
         total += wrapping.price;
       }
     }
 
     return total;
-  }, [customization]);
+  }, [customisation]);
 
   // Set product type
   const setProductType = useCallback((type: ProductType) => {
     setCustomization(prev => ({
       ...prev,
       productType: type,
-      wrappingStyleId: null, // Reset wrapping when product type changes
+      wrappingStyle: null, // Reset wrapping when product type changes
     }));
   }, []);
 
@@ -195,24 +195,24 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   // Get available flowers based on budget
   const getAvailableFlowers = useCallback((budgetAmount: number) => {
     const unlockedCategories = getUnlockedCategories(budgetAmount);
-    return FLOWERS.filter(f => unlockedCategories.includes(f.category as any) && f.inStock);
+    return FLOWERS.filter(f => unlockedCategories.includes(f.category as any) );
   }, [getUnlockedCategories]);
 
   // Get available fillers
   const getAvailableFillers = useCallback(() => {
-    return FILLERS.filter(f => f.inStock);
+    return FILLERS.filter(f => f);
   }, []);
 
   // Get applicable wrapping styles
   const getApplicableWrappingStyles = useCallback((productType: ProductType) => {
-    return WRAPPING_STYLES.filter(w => w.applicableTo.includes(productType));
+    return WRAPPING_STYLES.filter(w => w.productTypes.includes(productType));
   }, []);
 
-  // Add flower to customization
-  const addFlower = useCallback((flowerId: string, color: string, quantity: number) => {
+  // Add flower to customisation
+  const addFlower = useCallback((speciesId: string, color: string, quantity: number) => {
     setCustomization(prev => {
       const existingIndex = prev.selectedFlowers.findIndex(
-        f => f.flowerId === flowerId && f.color === color
+        f => f.speciesId === speciesId && f.color === color
       );
 
       if (existingIndex >= 0) {
@@ -225,38 +225,38 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       } else {
         return {
           ...prev,
-          selectedFlowers: [...prev.selectedFlowers, { flowerId, color, quantity }],
+          selectedFlowers: [...prev.selectedFlowers, { speciesId, color, quantity }],
         };
       }
     });
   }, []);
 
-  // Remove flower from customization
-  const removeFlower = useCallback((flowerId: string, color: string) => {
+  // Remove flower from customisation
+  const removeFlower = useCallback((speciesId: string, color: string) => {
     setCustomization(prev => ({
       ...prev,
       selectedFlowers: prev.selectedFlowers.filter(
-        f => !(f.flowerId === flowerId && f.color === color)
+        f => !(f.speciesId === speciesId && f.color === color)
       ),
     }));
   }, []);
 
   // Update flower quantity
-  const updateFlowerQuantity = useCallback((flowerId: string, color: string, quantity: number) => {
+  const updateFlowerQuantity = useCallback((speciesId: string, color: string, quantity: number) => {
     if (quantity <= 0) {
-      removeFlower(flowerId, color);
+      removeFlower(speciesId, color);
       return;
     }
 
     setCustomization(prev => ({
       ...prev,
       selectedFlowers: prev.selectedFlowers.map(f =>
-        f.flowerId === flowerId && f.color === color ? { ...f, quantity } : f
+        f.speciesId === speciesId && f.color === color ? { ...f, quantity } : f
       ),
     }));
   }, [removeFlower]);
 
-  // Add filler to customization
+  // Add filler to customisation
   const addFiller = useCallback((fillerId: string, quantity: number) => {
     setCustomization(prev => {
       const existing = prev.selectedFillers.find(f => f.fillerId === fillerId);
@@ -277,7 +277,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     });
   }, []);
 
-  // Remove filler from customization
+  // Remove filler from customisation
   const removeFiller = useCallback((fillerId: string) => {
     setCustomization(prev => ({
       ...prev,
@@ -304,18 +304,18 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const setWrappingStyle = useCallback((styleId: string | null) => {
     setCustomization(prev => ({
       ...prev,
-      wrappingStyleId: styleId,
+      wrappingStyle: styleId,
     }));
   }, []);
 
-  // Reset customization
+  // Reset customisation
   const resetCustomization = useCallback(() => {
     setCustomization({
       productType: 'bouquet',
       budgetTier: null,
       selectedFlowers: [],
       selectedFillers: [],
-      wrappingStyleId: null,
+      wrappingStyle: null,
     });
     setBooking(null);
   }, []);
@@ -332,13 +332,13 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
   // Create order
   const createOrder = useCallback(() => {
-    if (!booking || customization.selectedFlowers.length === 0) {
+    if (!booking || customisation.selectedFlowers.length === 0) {
       return null;
     }
 
     const order: Order = {
       id: generateId(),
-      customization: { ...customization },
+      customisation: { ...customisation },
       booking: { ...booking },
       status: 'received',
       totalPrice: calculateTotal(),
@@ -349,7 +349,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     addBookedSlot(formatSlotKey(booking.date, booking.time));
 
     return order;
-  }, [booking, customization, calculateTotal, addBookedSlot]);
+  }, [booking, customisation, calculateTotal, addBookedSlot]);
 
   // Get order by ID
   const getOrderById = useCallback((id: string) => {
@@ -391,7 +391,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const value: AppContextType = {
-    customization,
+    customisation,
     setProductType,
     setBudgetTier,
     addFlower,

@@ -1,5 +1,5 @@
 import React from 'react';
-import ProductCustomizer from '../components/ProductCustomizer';
+import { ProductCustomizer } from '../components/ProductCustomizer';
 import './Customise.css';
 
 const Customise: React.FC = () => {
