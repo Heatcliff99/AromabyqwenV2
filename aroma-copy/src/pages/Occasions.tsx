@@ -21,7 +21,7 @@ const Occasions: React.FC = () => {
       {occasions.map(occasion => (
         <section key={occasion.id} id={occasion.id} className="occasion-section">
           <div className="occasion-hero">
-            <img src={occasion.image} alt={occasion.name} />
+            <img src={occasion.imageUrl || ''} alt={occasion.name} />
             <div className="occasion-overlay">
               <h2>{occasion.name}</h2>
               <p>{occasion.description}</p>

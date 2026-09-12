@@ -91,44 +91,46 @@ export interface FillerFoliage {
   id: string;
   name: string;
   basePrice: number;
+  price: number;
   type: 'filler' | 'foliage';
   imageUrl?: string;
 }
 
 export const FILLERS_FOLIAGE: FillerFoliage[] = [
-  { id: 'fern', name: 'Ferns', basePrice: 15, type: 'foliage' },
-  { id: 'eucalyptus', name: 'Eucalyptus', basePrice: 25, type: 'foliage' },
-  { id: 'money-plant', name: 'Money Plant Leaves', basePrice: 12, type: 'foliage' },
-  { id: 'babys-breath', name: "Baby's Breath (Gypsophila)", basePrice: 20, type: 'filler' },
-  { id: 'palm-leaves', name: 'Palm Leaves', basePrice: 18, type: 'foliage' },
-  { id: 'areca-leaves', name: 'Areca Leaves', basePrice: 15, type: 'foliage' },
-  { id: 'seasonal-foliage', name: 'Seasonal Foliage', basePrice: 10, type: 'foliage' }
+  { id: 'fern', name: 'Ferns', basePrice: 15, price: 15, type: 'foliage' },
+  { id: 'eucalyptus', name: 'Eucalyptus', basePrice: 25, price: 25, type: 'foliage' },
+  { id: 'money-plant', name: 'Money Plant Leaves', basePrice: 12, price: 12, type: 'foliage' },
+  { id: 'babys-breath', name: "Baby's Breath (Gypsophila)", basePrice: 20, price: 20, type: 'filler' },
+  { id: 'palm-leaves', name: 'Palm Leaves', basePrice: 18, price: 18, type: 'foliage' },
+  { id: 'areca-leaves', name: 'Areca Leaves', basePrice: 15, price: 15, type: 'foliage' },
+  { id: 'seasonal-foliage', name: 'Seasonal Foliage', basePrice: 10, price: 10, type: 'foliage' }
 ];
 
 // Wrapping/Base Styles by Product Type
 export interface WrappingStyle {
   id: string;
   name: string;
+  price: number;
   basePrice: number;
   productTypes: string[];
   imageUrl?: string;
 }
 
 export const WRAPPING_STYLES: WrappingStyle[] = [
-  { id: 'craft-paper', name: 'Craft Paper Wrap', basePrice: 50, productTypes: ['bouquet'] },
-  { id: 'cellophane', name: 'Cellophane Wrap', basePrice: 40, productTypes: ['bouquet'] },
-  { id: 'cloth-wrap', name: 'Cloth Wrap', basePrice: 80, productTypes: ['bouquet'] },
-  { id: 'box-wrap', name: 'Box Wrap', basePrice: 100, productTypes: ['bouquet', 'basket'] },
-  { id: 'cane-basket', name: 'Cane Basket', basePrice: 150, productTypes: ['basket'] },
-  { id: 'ceramic-basket', name: 'Ceramic Basket', basePrice: 250, productTypes: ['basket'] },
-  { id: 'wooden-crate', name: 'Wooden Crate', basePrice: 200, productTypes: ['basket'] },
-  { id: 'single-strand', name: 'Single Strand Base', basePrice: 100, productTypes: ['varmala'] },
-  { id: 'double-strand', name: 'Double Strand Base', basePrice: 180, productTypes: ['varmala'] },
-  { id: 'thread-base', name: 'Traditional Thread Base', basePrice: 120, productTypes: ['varmala', 'jewellery'] },
-  { id: 'velvet-box', name: 'Velvet Jewellery Box', basePrice: 200, productTypes: ['jewellery'] },
-  { id: 'arch-base', name: 'Grand Arch Base', basePrice: 500, productTypes: ['event-decor'] },
-  { id: 'mandap-base', name: 'Mandap Base Structure', basePrice: 800, productTypes: ['event-decor'] },
-  { id: 'stage-base', name: 'Stage Backdrop Base', basePrice: 600, productTypes: ['event-decor'] }
+  { id: 'craft-paper', name: 'Craft Paper Wrap', basePrice: 50, price: 50, productTypes: ['bouquet'] },
+  { id: 'cellophane', name: 'Cellophane Wrap', basePrice: 40, price: 40, productTypes: ['bouquet'] },
+  { id: 'cloth-wrap', name: 'Cloth Wrap', basePrice: 80, price: 80, productTypes: ['bouquet'] },
+  { id: 'box-wrap', name: 'Box Wrap', basePrice: 100, price: 100, productTypes: ['bouquet', 'basket'] },
+  { id: 'cane-basket', name: 'Cane Basket', basePrice: 150, price: 150, productTypes: ['basket'] },
+  { id: 'ceramic-basket', name: 'Ceramic Basket', basePrice: 250, price: 250, productTypes: ['basket'] },
+  { id: 'wooden-crate', name: 'Wooden Crate', basePrice: 200, price: 200, productTypes: ['basket'] },
+  { id: 'single-strand', name: 'Single Strand Base', basePrice: 100, price: 100, productTypes: ['varmala'] },
+  { id: 'double-strand', name: 'Double Strand Base', basePrice: 180, price: 180, productTypes: ['varmala'] },
+  { id: 'thread-base', name: 'Traditional Thread Base', basePrice: 120, price: 120, productTypes: ['varmala', 'jewellery'] },
+  { id: 'velvet-box', name: 'Velvet Jewellery Box', basePrice: 200, price: 200, productTypes: ['jewellery'] },
+  { id: 'arch-base', name: 'Grand Arch Base', basePrice: 500, price: 500, productTypes: ['event-decor'] },
+  { id: 'mandap-base', name: 'Mandap Base Structure', basePrice: 800, price: 800, productTypes: ['event-decor'] },
+  { id: 'stage-base', name: 'Stage Backdrop Base', basePrice: 600, price: 600, productTypes: ['event-decor'] }
 ];
 
 // Ribbon Colors & Add-ons
@@ -255,8 +257,11 @@ export interface CustomisationSelection {
 
 // Booking Details
 export interface BookingDetails {
-  dateTime: Date;
+  date: string;
+  time: string;
+  dateTime?: Date;
   deliveryType: 'delivery' | 'pickup';
+  pickupLocation?: string;
   shopLocation?: ShopLocation;
   googleMapsLink?: string;
   whatsappNumber: string;
@@ -324,6 +329,33 @@ export interface DashboardStats {
   monthlyRevenue: number;
   lowStockItems: number;
   outOfStockItems: number;
+}
+
+// Customization State
+export interface CustomizationState {
+  productType: ProductType | null;
+  budgetTier: number | null;
+  selectedFlowers: Array<{
+    speciesId: string;
+    color: string;
+    quantity: number;
+  }>;
+  selectedFillers: Array<{
+    fillerId: string;
+    quantity: number;
+  }>;
+  wrappingStyle: string | null;
+  ribbonColor?: string;
+  addOns: AddOn[];
+  inspirationImage?: string;
+  visionNote?: string;
+}
+
+// Shop Inventory
+export interface ShopInventory {
+  id: string;
+  shopId: ShopLocation;
+  items: InventoryItem[];
 }
 
 // Export constants for use in components
