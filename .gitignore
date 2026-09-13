@@ -1,6 +1,10 @@
 ```
 # Dependencies
 node_modules/
+.pnpm-store/
+.npm/
+.yarn/
+bower_components/
 
 # Build artifacts
 dist/
