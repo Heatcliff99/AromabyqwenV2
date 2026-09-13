@@ -238,7 +238,7 @@ export function ProductCustomizer({ onClose, onComplete }: ProductCustomizerProp
                           <span>
                             {customization.selectedFlowers
                               .filter((f) => f.speciesId === flower.id)
-                              .reduce((sum, f) => sum + f.quantity, 0)}
+                              .reduce((sum: number, f) => sum + f.quantity, 0)}
                           </span>
                           <button
                             onClick={() => {
@@ -486,7 +486,7 @@ export function ProductCustomizer({ onClose, onComplete }: ProductCustomizerProp
             <div className="summary-item">
               <span>Product Type</span>
               <strong>
-                {PRODUCT_TYPES.find((p) => p.value === customization.productType)?.label}
+                {PRODUCT_TYPES.find((p) => p.type === customization.productType)?.name}
               </strong>
             </div>
             {customization.budgetTier && (
@@ -498,7 +498,7 @@ export function ProductCustomizer({ onClose, onComplete }: ProductCustomizerProp
             {customization.selectedFlowers.length > 0 && (
               <div className="summary-section">
                 <span>Flowers</span>
-                {customization.selectedFlowers.map((f, idx) => (
+                {customization.selectedFlowers.map((f, idx: number) => (
                   <div key={idx} className="summary-subitem">
                     <span>
                       {getFlowerName(f.speciesId)} ({f.color}) × {f.quantity}
@@ -510,7 +510,7 @@ export function ProductCustomizer({ onClose, onComplete }: ProductCustomizerProp
             {customization.selectedFillers.length > 0 && (
               <div className="summary-section">
                 <span>Fillers</span>
-                {customization.selectedFillers.map((f, idx) => (
+                {customization.selectedFillers.map((f, idx: number) => (
                   <div key={idx} className="summary-subitem">
                     <span>
                       {getFillerName(f.fillerId)} × {f.quantity}
