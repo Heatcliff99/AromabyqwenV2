@@ -1,6 +1,10 @@
 ```
 # Dependencies
 node_modules/
+.pnpm-store/
+.npm/
+.yarn/
+bower_components/
 
 # Build outputs
 dist/
@@ -30,6 +34,8 @@ venv/
 .idea/
 *.swp
 *.swo
+.DS_Store
+Thumbs.db
 
 # OS
 .DS_Store
