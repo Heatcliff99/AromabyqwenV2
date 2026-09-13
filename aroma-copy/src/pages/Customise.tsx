@@ -1,8 +1,19 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ProductCustomizer } from '../components/ProductCustomizer';
 import './Customise.css';
 
 const Customise: React.FC = () => {
+  const navigate = useNavigate();
+  
+  const handleClose = () => {
+    navigate('/');
+  };
+  
+  const handleComplete = () => {
+    navigate('/account');
+  };
+  
   return (
     <div className="customise-page">
       <header className="customise-header">
@@ -10,7 +21,7 @@ const Customise: React.FC = () => {
         <p>Compose your piece, bloom by bloom.</p>
       </header>
       
-      <ProductCustomizer />
+      <ProductCustomizer onClose={handleClose} onComplete={handleComplete} />
     </div>
   );
 };

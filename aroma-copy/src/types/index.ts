@@ -158,6 +158,8 @@ export type ProductType = 'bouquet' | 'basket' | 'varmala' | 'jewellery' | 'even
 export interface ProductCategory {
   id: string;
   name: string;
+  label: string;
+  value: string;
   type: ProductType;
   description: string;
   basePrice: number;
@@ -165,11 +167,11 @@ export interface ProductCategory {
 }
 
 export const PRODUCT_CATEGORIES: ProductCategory[] = [
-  { id: 'hand-tied-bouquets', name: 'Hand-Tied Bouquets', type: 'bouquet', description: 'Elegantly arranged fresh flower bouquets', basePrice: 150, imageUrl: '' },
-  { id: 'flower-baskets', name: 'Flower Baskets', type: 'basket', description: 'Beautiful flowers in decorative baskets', basePrice: 300, imageUrl: '' },
-  { id: 'varmalas', name: 'Varmalas (Wedding Garlands)', type: 'varmala', description: 'Traditional wedding garlands', basePrice: 500, imageUrl: '' },
-  { id: 'floral-jewellery', name: 'Floral Jewellery', type: 'jewellery', description: 'Hair flowers, hasta phool, maang tikka', basePrice: 400, imageUrl: '' },
-  { id: 'event-decor', name: 'Event Décor', type: 'event-decor', description: 'Mandap, entrance, stage, car décor', basePrice: 2000, imageUrl: '' }
+  { id: 'hand-tied-bouquets', name: 'Hand-Tied Bouquets', label: 'Hand-Tied Bouquets', value: 'bouquet', type: 'bouquet', description: 'Elegantly arranged fresh flower bouquets', basePrice: 150, imageUrl: '' },
+  { id: 'flower-baskets', name: 'Flower Baskets', label: 'Flower Baskets', value: 'basket', type: 'basket', description: 'Beautiful flowers in decorative baskets', basePrice: 300, imageUrl: '' },
+  { id: 'varmalas', name: 'Varmalas (Wedding Garlands)', label: 'Varmalas', value: 'varmala', type: 'varmala', description: 'Traditional wedding garlands', basePrice: 500, imageUrl: '' },
+  { id: 'floral-jewellery', name: 'Floral Jewellery', label: 'Floral Jewellery', value: 'jewellery', type: 'jewellery', description: 'Hair flowers, hasta phool, maang tikka', basePrice: 400, imageUrl: '' },
+  { id: 'event-decor', name: 'Event Décor', label: 'Event Décor', value: 'event-decor', type: 'event-decor', description: 'Mandap, entrance, stage, car décor', basePrice: 2000, imageUrl: '' }
 ];
 
 // Occasions & Festivals
@@ -238,7 +240,7 @@ export interface InventoryItem {
 
 // Customisation Selection
 export interface CustomisationSelection {
-  budgetTier: BudgetTier;
+  budgetTier: BudgetTier | null;
   selectedFlowers: Array<{
     speciesId: string;
     color: string;
@@ -248,7 +250,7 @@ export interface CustomisationSelection {
     fillerId: string;
     quantity: number;
   }>;
-  wrappingStyle?: WrappingStyle;
+  wrappingStyle?: WrappingStyle | null;
   ribbonColor?: string;
   addOns: AddOn[];
   inspirationImage?: string;
@@ -334,7 +336,7 @@ export interface DashboardStats {
 // Customization State
 export interface CustomizationState {
   productType: ProductType | null;
-  budgetTier: number | null;
+  budgetTier: BudgetTier | null;
   selectedFlowers: Array<{
     speciesId: string;
     color: string;
@@ -344,7 +346,7 @@ export interface CustomizationState {
     fillerId: string;
     quantity: number;
   }>;
-  wrappingStyle: string | null;
+  wrappingStyle: WrappingStyle | null;
   ribbonColor?: string;
   addOns: AddOn[];
   inspirationImage?: string;
@@ -353,7 +355,7 @@ export interface CustomizationState {
 
 // Shop Inventory
 export interface ShopInventory {
-  id: string;
+  id: ShopLocation;
   shopId: ShopLocation;
   items: InventoryItem[];
 }

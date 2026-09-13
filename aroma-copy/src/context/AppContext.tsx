@@ -5,22 +5,29 @@ import type {
   Order, 
   ProductType,
   InventoryItem,
-  ShopInventory
+  ShopInventory,
+  BudgetTier,
+  WrappingStyle
 } from '../types';
 import { FLOWERS, FILLERS, WRAPPING_STYLES, BUDGET_TIERS } from '../types';
 
 interface AppContextType {
+  // Authentication
+  currentUser: { id: string; name: string; email: string; phone: string } | null;
+  login: (user: { id: string; name: string; email: string; phone: string }) => void;
+  logout: () => void;
+  
   // Customization
   customisation: CustomizationState;
   setProductType: (type: ProductType) => void;
-  setBudgetTier: (amount: number | null) => void;
+  setBudgetTier: (tier: BudgetTier | null) => void;
   addFlower: (speciesId: string, color: string, quantity: number) => void;
   removeFlower: (speciesId: string, color: string) => void;
   updateFlowerQuantity: (speciesId: string, color: string, quantity: number) => void;
   addFiller: (fillerId: string, quantity: number) => void;
   removeFiller: (fillerId: string) => void;
   updateFillerQuantity: (fillerId: string, quantity: number) => void;
-  setWrappingStyle: (styleId: string | null) => void;
+  setWrappingStyle: (style: WrappingStyle | null) => void;
   resetCustomization: () => void;
   calculateTotal: () => number;
   
@@ -48,7 +55,7 @@ interface AppContextType {
   isSlotAvailable: (dateTime: string) => boolean;
 }
 
-const AppContext = createContext<AppContextType | null>(null);
+export const AppContext = createContext<AppContextType | null>(null);
 
 // Generate unique ID
 const generateId = () => Math.random().toString(36).substr(2, 9);
@@ -57,6 +64,17 @@ const generateId = () => Math.random().toString(36).substr(2, 9);
 const formatSlotKey = (date: string, time: string) => `${date}T${time}`;
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
+  // Authentication state
+  const [currentUser, setCurrentUser] = useState<{ id: string; name: string; email: string; phone: string } | null>(null);
+  
+  const login = useCallback((user: { id: string; name: string; email: string; phone: string }) => {
+    setCurrentUser(user);
+  }, []);
+  
+  const logout = useCallback(() => {
+    setCurrentUser(null);
+  }, []);
+  
   // Customization state
   const [customisation, setCustomization] = useState<CustomizationState>({
     productType: 'bouquet',
@@ -64,6 +82,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     selectedFlowers: [],
     selectedFillers: [],
     wrappingStyle: null,
+    addOns: [],
   });
 
   // Booking state
@@ -78,60 +97,92 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   // Inventory state (two shops)
   const [inventory, setInventory] = useState<ShopInventory[]>([
     {
+      id: 'manish-nagar',
       shopId: 'manish-nagar',
       items: [
         ...FLOWERS.map(f => ({
           id: f.id,
           name: f.name,
           type: 'flower' as const,
-          stockLevel: 'in_stock' as const,
-          quantity: 100,
-          price: f.basePrice,
+          stockByShop: {
+            'manish-nagar': { quantity: 100, status: 'in-stock' as const },
+            'khamla': { quantity: 80, status: 'in-stock' as const }
+          },
+          pricePerUnit: f.basePrice,
+          unit: 'stem',
+          isActive: true,
+          lastUpdated: new Date(),
         })),
         ...FILLERS.map(f => ({
           id: f.id,
           name: f.name,
           type: 'filler' as const,
-          stockLevel: 'in_stock' as const,
-          quantity: 50,
-          price: f.price,
+          stockByShop: {
+            'manish-nagar': { quantity: 50, status: 'in-stock' as const },
+            'khamla': { quantity: 40, status: 'in-stock' as const }
+          },
+          pricePerUnit: f.price,
+          unit: 'unit',
+          isActive: true,
+          lastUpdated: new Date(),
         })),
         ...WRAPPING_STYLES.map(w => ({
           id: w.id,
           name: w.name,
           type: 'material' as const,
-          stockLevel: 'in_stock' as const,
-          quantity: 30,
-          price: w.price,
+          stockByShop: {
+            'manish-nagar': { quantity: 30, status: 'in-stock' as const },
+            'khamla': { quantity: 25, status: 'in-stock' as const }
+          },
+          pricePerUnit: w.price,
+          unit: 'piece',
+          isActive: true,
+          lastUpdated: new Date(),
         })),
       ],
     },
     {
+      id: 'khamla',
       shopId: 'khamla',
       items: [
         ...FLOWERS.map(f => ({
           id: f.id,
           name: f.name,
           type: 'flower' as const,
-          stockLevel: 'in_stock' as const,
-          quantity: 80,
-          price: f.basePrice,
+          stockByShop: {
+            'manish-nagar': { quantity: 100, status: 'in-stock' as const },
+            'khamla': { quantity: 80, status: 'in-stock' as const }
+          },
+          pricePerUnit: f.basePrice,
+          unit: 'stem',
+          isActive: true,
+          lastUpdated: new Date(),
         })),
         ...FILLERS.map(f => ({
           id: f.id,
           name: f.name,
           type: 'filler' as const,
-          stockLevel: 'in_stock' as const,
-          quantity: 40,
-          price: f.price,
+          stockByShop: {
+            'manish-nagar': { quantity: 50, status: 'in-stock' as const },
+            'khamla': { quantity: 40, status: 'in-stock' as const }
+          },
+          pricePerUnit: f.price,
+          unit: 'unit',
+          isActive: true,
+          lastUpdated: new Date(),
         })),
         ...WRAPPING_STYLES.map(w => ({
           id: w.id,
           name: w.name,
           type: 'material' as const,
-          stockLevel: 'in_stock' as const,
-          quantity: 25,
-          price: w.price,
+          stockByShop: {
+            'manish-nagar': { quantity: 30, status: 'in-stock' as const },
+            'khamla': { quantity: 25, status: 'in-stock' as const }
+          },
+          pricePerUnit: w.price,
+          unit: 'piece',
+          isActive: true,
+          lastUpdated: new Date(),
         })),
       ],
     },
@@ -159,7 +210,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
     // Add wrapping cost
     if (customisation.wrappingStyle) {
-      const wrapping = WRAPPING_STYLES.find(w => w.id === customisation.wrappingStyle);
+      const wrapping = WRAPPING_STYLES.find(w => w.id === customisation.wrappingStyle?.id);
       if (wrapping) {
         total += wrapping.price;
       }
@@ -178,10 +229,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   // Set budget tier
-  const setBudgetTier = useCallback((amount: number | null) => {
+  const setBudgetTier = useCallback((tier: BudgetTier | null) => {
     setCustomization(prev => ({
       ...prev,
-      budgetTier: amount,
+      budgetTier: tier,
     }));
   }, []);
 
@@ -301,10 +352,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   }, [removeFiller]);
 
   // Set wrapping style
-  const setWrappingStyle = useCallback((styleId: string | null) => {
+  const setWrappingStyle = useCallback((style: WrappingStyle | null) => {
     setCustomization(prev => ({
       ...prev,
-      wrappingStyle: styleId,
+      wrappingStyle: style,
     }));
   }, []);
 
@@ -316,6 +367,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       selectedFlowers: [],
       selectedFillers: [],
       wrappingStyle: null,
+      addOns: [],
     });
     setBooking(null);
   }, []);
@@ -338,11 +390,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
     const order: Order = {
       id: generateId(),
+      userId: 'guest',
+      productType: customisation.productType || 'bouquet',
       customisation: { ...customisation },
       booking: { ...booking },
       status: 'received',
       totalPrice: calculateTotal(),
       createdAt: new Date(),
+      updatedAt: new Date(),
     };
 
     setOrders(prev => [...prev, order]);
@@ -391,6 +446,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const value: AppContextType = {
+    currentUser,
+    login,
+    logout,
     customisation,
     setProductType,
     setBudgetTier,

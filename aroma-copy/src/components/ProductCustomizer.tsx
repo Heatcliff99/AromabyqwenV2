@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useApp } from '../context/AppContext';
-import { BUDGET_TIERS, FLOWERS, FILLERS, PRODUCT_TYPES, WRAPPING_STYLES, type BookingDetails } from '../types';
+import { BUDGET_TIERS, FLOWERS, FILLERS, PRODUCT_TYPES, type BookingDetails } from '../types';
 import { X, Plus, Minus, Check, Info } from 'lucide-react';
 import './ProductCustomizer.css';
 
@@ -14,7 +14,7 @@ export function ProductCustomizer({ onClose, onComplete }: ProductCustomizerProp
   const [mapsLink, setMapsLink] = useState('');
 
   const {
-    customization,
+    customisation,
     setBudgetTier,
     addFlower,
     removeFlower,
@@ -34,16 +34,16 @@ export function ProductCustomizer({ onClose, onComplete }: ProductCustomizerProp
   } = useApp();
 
   const total = calculateTotal();
-  const selectedTier = BUDGET_TIERS.find(t => t.amount === customization.budgetTier);
+  const selectedTier = customisation.budgetTier;
 
   // Step 1: Select budget tier
-  const handleBudgetSelect = (amount: number) => {
-    setBudgetTier(amount);
+  const handleBudgetSelect = (tier: import('../types').BudgetTier) => {
+    setBudgetTier(tier);
   };
 
   // Step 2: Flower selection
-  const availableFlowers = customization.budgetTier 
-    ? getAvailableFlowers(customization.budgetTier) 
+  const availableFlowers = customisation.budgetTier 
+    ? getAvailableFlowers(customisation.budgetTier.amount) 
     : [];
 
   const handleAddFlower = (speciesId: string, color: string) => {
@@ -58,10 +58,10 @@ export function ProductCustomizer({ onClose, onComplete }: ProductCustomizerProp
   };
 
   // Step 4: Wrapping selection
-  const applicableWrapping = getApplicableWrappingStyles(customization.productType);
+  const applicableWrapping = customisation.productType ? getApplicableWrappingStyles(customisation.productType) : [];
 
-  const handleWrappingSelect = (styleId: string) => {
-    setWrappingStyle(styleId);
+  const handleWrappingSelect = (style: import('../types').WrappingStyle) => {
+    setWrappingStyle(style);
   };
 
   // Booking form handlers
@@ -103,15 +103,15 @@ export function ProductCustomizer({ onClose, onComplete }: ProductCustomizerProp
     }
   };
 
-  const canProceedFromStep1 = customization.budgetTier !== null;
-  const canProceedFromStep2 = customization.selectedFlowers.length > 0;
+  const canProceedFromStep1 = customisation.budgetTier !== null;
+  const canProceedFromStep2 = customisation.selectedFlowers.length > 0;
   // const canProceedFromStep3 = true; // Fillers are optional
-  const canProceedFromStep4 = customization.wrappingStyle !== null;
+  const canProceedFromStep4 = customisation.wrappingStyle !== null;
 
   const getFlowerName = (id: string) => FLOWERS.find(f => f.id === id)?.name || id;
   const getFillerName = (id: string) => FILLERS.find(f => f.id === id)?.name || id;
-  const getWrappingName = (id: string) =>
-    WRAPPING_STYLES.find(w => w.id === id)?.name || '';
+  const getWrappingName = (style: import('../types').WrappingStyle | null) =>
+    style?.name || '';
 
   return (
     <div className="customizer-overlay">
@@ -157,9 +157,9 @@ export function ProductCustomizer({ onClose, onComplete }: ProductCustomizerProp
                   <button
                     key={tier.amount}
                     className={`budget-tier-btn ${
-                      customization.budgetTier === tier.amount ? 'selected' : ''
+                      customisation.budgetTier?.amount === tier.amount ? 'selected' : ''
                     } ${tier.isPremium ? 'premium' : ''}`}
-                    onClick={() => handleBudgetSelect(tier.amount)}
+                    onClick={() => handleBudgetSelect(tier)}
                   >
                     {tier.label}
                     {tier.isPremium && <span className="premium-badge">Premium</span>}
@@ -186,7 +186,7 @@ export function ProductCustomizer({ onClose, onComplete }: ProductCustomizerProp
               <p className="step-description">
                 Choose your preferred flowers with colors and quantities
               </p>
-              {customization.budgetTier === null ? (
+              {!customisation.budgetTier ? (
                 <p className="no-selection">Please select a budget tier first.</p>
               ) : (
                 <div className="flowers-grid">
@@ -196,8 +196,8 @@ export function ProductCustomizer({ onClose, onComplete }: ProductCustomizerProp
                       <p className="flower-price">₹{flower.basePrice}/stem</p>
                       <div className="color-options">
                         {flower.colors.map((color) => {
-                          const selected = customization.selectedFlowers.find(
-                            (f) => f.speciesId === flower.id && f.color === color
+                          const selected = customisation.selectedFlowers.find(
+                            (f: { speciesId: string; color: string; quantity: number }) => f.speciesId === flower.id && f.color === color
                           );
                           return (
                             <div
@@ -215,14 +215,14 @@ export function ProductCustomizer({ onClose, onComplete }: ProductCustomizerProp
                           );
                         })}
                       </div>
-                      {customization.selectedFlowers.some(
-                        (f) => f.speciesId === flower.id
+                      {customisation.selectedFlowers.some(
+                        (f: { speciesId: string; color: string; quantity: number }) => f.speciesId === flower.id
                       ) && (
                         <div className="quantity-controls">
                           <button
                             onClick={() => {
-                              const selected = customization.selectedFlowers.find(
-                                (f) => f.speciesId === flower.id
+                              const selected = customisation.selectedFlowers.find(
+                                (f: { speciesId: string; color: string; quantity: number }) => f.speciesId === flower.id
                               );
                               if (selected) {
                                 updateFlowerQuantity(
@@ -236,14 +236,14 @@ export function ProductCustomizer({ onClose, onComplete }: ProductCustomizerProp
                             <Minus size={16} />
                           </button>
                           <span>
-                            {customization.selectedFlowers
-                              .filter((f) => f.speciesId === flower.id)
-                              .reduce((sum, f) => sum + f.quantity, 0)}
+                            {customisation.selectedFlowers
+                              .filter((f: { speciesId: string; color: string; quantity: number }) => f.speciesId === flower.id)
+                              .reduce((sum: number, f: { speciesId: string; color: string; quantity: number }) => sum + f.quantity, 0)}
                           </span>
                           <button
                             onClick={() => {
-                              const selected = customization.selectedFlowers.find(
-                                (f) => f.speciesId === flower.id
+                              const selected = customisation.selectedFlowers.find(
+                                (f: { speciesId: string; color: string; quantity: number }) => f.speciesId === flower.id
                               );
                               if (selected) {
                                 updateFlowerQuantity(
@@ -276,8 +276,8 @@ export function ProductCustomizer({ onClose, onComplete }: ProductCustomizerProp
               </p>
               <div className="fillers-grid">
                 {availableFillers.map((filler) => {
-                  const selected = customization.selectedFillers.find(
-                    (f) => f.fillerId === filler.id
+                  const selected = customisation.selectedFillers.find(
+                    (f: { fillerId: string; quantity: number }) => f.fillerId === filler.id
                   );
                   return (
                     <div key={filler.id} className="filler-card">
@@ -327,20 +327,20 @@ export function ProductCustomizer({ onClose, onComplete }: ProductCustomizerProp
             <div className="step-content">
               <h3>Select Wrapping / Base Style</h3>
               <p className="step-description">
-                Choose the perfect finishing touch for your {customization.productType}
+                Choose the perfect finishing touch for your {customisation.productType}
               </p>
               <div className="wrapping-grid">
                 {applicableWrapping.map((style) => (
                   <div
                     key={style.id}
                     className={`wrapping-card ${
-                      customization.wrappingStyle === style.id ? 'selected' : ''
+                      customisation.wrappingStyle?.id === style.id ? 'selected' : ''
                     }`}
-                    onClick={() => handleWrappingSelect(style.id)}
+                    onClick={() => handleWrappingSelect(style)}
                   >
                     <h4>{style.name}</h4>
                     <p className="wrapping-price">₹{style.price}</p>
-                    {customization.wrappingStyle === style.id && (
+                    {customisation.wrappingStyle?.id === style.id && (
                       <div className="selected-badge">
                         <Check size={16} /> Selected
                       </div>
@@ -486,19 +486,19 @@ export function ProductCustomizer({ onClose, onComplete }: ProductCustomizerProp
             <div className="summary-item">
               <span>Product Type</span>
               <strong>
-                {PRODUCT_TYPES.find((p) => p.value === customization.productType)?.label}
+                {PRODUCT_TYPES.find((p) => p.type === customisation.productType)?.label}
               </strong>
             </div>
-            {customization.budgetTier && (
+            {customisation.budgetTier && (
               <div className="summary-item">
                 <span>Budget</span>
-                <strong>₹{customization.budgetTier.toLocaleString()}</strong>
+                <strong>₹{customisation.budgetTier.amount.toLocaleString()}</strong>
               </div>
             )}
-            {customization.selectedFlowers.length > 0 && (
+            {customisation.selectedFlowers.length > 0 && (
               <div className="summary-section">
                 <span>Flowers</span>
-                {customization.selectedFlowers.map((f, idx) => (
+                {customisation.selectedFlowers.map((f, idx) => (
                   <div key={idx} className="summary-subitem">
                     <span>
                       {getFlowerName(f.speciesId)} ({f.color}) × {f.quantity}
@@ -507,10 +507,10 @@ export function ProductCustomizer({ onClose, onComplete }: ProductCustomizerProp
                 ))}
               </div>
             )}
-            {customization.selectedFillers.length > 0 && (
+            {customisation.selectedFillers.length > 0 && (
               <div className="summary-section">
                 <span>Fillers</span>
-                {customization.selectedFillers.map((f, idx) => (
+                {customisation.selectedFillers.map((f, idx) => (
                   <div key={idx} className="summary-subitem">
                     <span>
                       {getFillerName(f.fillerId)} × {f.quantity}
@@ -519,10 +519,10 @@ export function ProductCustomizer({ onClose, onComplete }: ProductCustomizerProp
                 ))}
               </div>
             )}
-            {customization.wrappingStyle && (
+            {customisation.wrappingStyle && (
               <div className="summary-item">
                 <span>Wrapping</span>
-                <strong>{getWrappingName(customization.wrappingStyle)}</strong>
+                <strong>{getWrappingName(customisation.wrappingStyle)}</strong>
               </div>
             )}
           </div>
