@@ -1,19 +1,24 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import { ProductCustomizer } from '../components/ProductCustomizer';
 import './Customise.css';
 
 const Customise: React.FC = () => {
-  const navigate = useNavigate();
-  
-  const handleClose = () => {
-    navigate('/');
+  const [showCustomizer, setShowCustomizer] = useState(false);
+
+  const handleOpenCustomizer = () => {
+    setShowCustomizer(true);
   };
-  
-  const handleComplete = () => {
-    navigate('/account');
+
+  const handleCloseCustomizer = () => {
+    setShowCustomizer(false);
   };
-  
+
+  const handleCustomizationComplete = () => {
+    setShowCustomizer(false);
+    // Handle order completion - could redirect or show confirmation
+    console.log('Customization complete!');
+  };
+
   return (
     <div className="customise-page">
       <header className="customise-header">
@@ -21,7 +26,21 @@ const Customise: React.FC = () => {
         <p>Compose your piece, bloom by bloom.</p>
       </header>
       
-      <ProductCustomizer onClose={handleClose} onComplete={handleComplete} />
+      {!showCustomizer ? (
+        <div className="customise-intro">
+          <button 
+            className="start-customizing-btn"
+            onClick={handleOpenCustomizer}
+          >
+            Start Customizing Your Order
+          </button>
+        </div>
+      ) : (
+        <ProductCustomizer 
+          onClose={handleCloseCustomizer}
+          onComplete={handleCustomizationComplete}
+        />
+      )}
     </div>
   );
 };
