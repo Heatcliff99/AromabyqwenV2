@@ -2,35 +2,14 @@
 # Dependencies
 node_modules/
 
-# Build outputs
+# Build artifacts
 dist/
 build/
-*.js
-*.ts
+*.o
+*.obj
+*.out
 
-# Environment variables
-.env
-.env.local
-.env.*
-
-# IDE specific
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# Logs
-*.log
-
-# Temporary files
-*.tmp
-
-# Coverage reports
-coverage/
-htmlcov/
-*.coverage
-
-# Python related (if applicable)
+# Python specific
 __pycache__/
 *.pyc
 *.pyo
@@ -39,39 +18,59 @@ __pycache__/
 env/
 venv/
 .venv/
-pip-log.txt
-pip-delete-this-directory.txt
-.pytest_cache/
-.mypy_cache/
+.ENV
+.env
+.env.local
+.env.*
+.venv.bak/
+.python-version
 
-# OS generated files
+# Logs
+*.log
+
+# Coverage reports
+coverage/
+*.coverage
+.htmlcov/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
+
+# OS files
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db
 
-# Node.js related
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-node_modules/
-dist/
-build/
-.nyc_output
+# Testing
+.mypy_cache/
+.pytest_cache/
+.nyc_output/
 coverage/
-*.lcov
 
-# TypeScript/JavaScript build outputs
-lib/
-out/
-dist/
-build/
-*.js.map
+# Distribution / packaging
+*.tar.gz
+*.whl
+*.egg-info/
+MANIFEST
+
+# Environment variables
+.env
+.env.local
+.env.*
+
+# TypeScript/JavaScript build
 *.tsbuildinfo
+.next/
+nuxt/dist/
 
-# React/Vite specific
-.vite/
+# Compiled CSS/JS
+*.css.map
+*.js.map
+
+# Temporary files
+*.tmp
+*~
 ```

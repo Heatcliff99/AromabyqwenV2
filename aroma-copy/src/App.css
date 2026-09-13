@@ -64,6 +64,105 @@ html {
   }
 }
 
+/* Navigation Icons Container */
+.nav-icons {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Nav Icon Button Styles */
+.nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.nav-icon:hover {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: #d4a574;
+  color: #d4a574;
+  transform: scale(1.05);
+}
+
+/* User button specific styles */
+.nav-icon.user-btn {
+  background: #f8f5f2;
+  border-color: #d4a574;
+  color: #d4a574;
+}
+
+.nav-icon.user-btn:hover {
+  background: #d4a574;
+  color: #fff;
+}
+
+/* Cart button */
+.nav-icon.cart-btn {
+  position: relative;
+}
+
+/* Dropdown container */
+.user-dropdown {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  padding: 12px 0;
+  min-width: 200px;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  color: #333;
+  text-decoration: none;
+  transition: background 0.2s ease;
+  border: none;
+  background: transparent;
+  width: 100%;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.dropdown-item:hover {
+  background: #f8f5f2;
+}
+
+.logout-btn {
+  color: #d4a574;
+}
+
+.logout-btn:hover {
+  background: #fef5f0;
+}
+
 /* Order Confirmation Toast */
 .order-confirmation-toast {
   position: fixed;

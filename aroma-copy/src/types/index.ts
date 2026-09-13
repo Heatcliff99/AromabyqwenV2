@@ -261,3 +261,16 @@ export const ORDER_STATUS_LABELS: Record<OrderStatus, string> = {
 
 export const SHOPS = ['manishNagar', 'khamla'] as const;
 export type ShopName = typeof SHOPS[number];
+
+// Type alias for shop location keys (for inventory indexing)
+export type ShopLocationKey = 'manishNagar' | 'khamla';
+
+// Shop Inventory type (for owner dashboard)
+export interface ShopInventory {
+  flowers: InventoryItem[];
+  fillers: InventoryItem[];
+  materials: InventoryItem[];
+}
+
+// Export PRODUCTS array for Collection page
+export const PRODUCTS = [] as any[]; // Placeholder - actual products are generated dynamically
