@@ -159,17 +159,18 @@ export interface ProductCategory {
   id: string;
   name: string;
   type: ProductType;
+  label: string;
   description: string;
   basePrice: number;
   imageUrl: string;
 }
 
 export const PRODUCT_CATEGORIES: ProductCategory[] = [
-  { id: 'hand-tied-bouquets', name: 'Hand-Tied Bouquets', type: 'bouquet', description: 'Elegantly arranged fresh flower bouquets', basePrice: 150, imageUrl: '' },
-  { id: 'flower-baskets', name: 'Flower Baskets', type: 'basket', description: 'Beautiful flowers in decorative baskets', basePrice: 300, imageUrl: '' },
-  { id: 'varmalas', name: 'Varmalas (Wedding Garlands)', type: 'varmala', description: 'Traditional wedding garlands', basePrice: 500, imageUrl: '' },
-  { id: 'floral-jewellery', name: 'Floral Jewellery', type: 'jewellery', description: 'Hair flowers, hasta phool, maang tikka', basePrice: 400, imageUrl: '' },
-  { id: 'event-decor', name: 'Event Décor', type: 'event-decor', description: 'Mandap, entrance, stage, car décor', basePrice: 2000, imageUrl: '' }
+  { id: 'hand-tied-bouquets', name: 'Hand-Tied Bouquets', type: 'bouquet', label: 'Bouquet', description: 'Elegantly arranged fresh flower bouquets', basePrice: 150, imageUrl: '' },
+  { id: 'flower-baskets', name: 'Flower Baskets', type: 'basket', label: 'Basket', description: 'Beautiful flowers in decorative baskets', basePrice: 300, imageUrl: '' },
+  { id: 'varmalas', name: 'Varmalas (Wedding Garlands)', type: 'varmala', label: 'Varmala', description: 'Traditional wedding garlands', basePrice: 500, imageUrl: '' },
+  { id: 'floral-jewellery', name: 'Floral Jewellery', type: 'jewellery', label: 'Jewellery', description: 'Hair flowers, hasta phool, maang tikka', basePrice: 400, imageUrl: '' },
+  { id: 'event-decor', name: 'Event Décor', type: 'event-decor', label: 'Event Décor', description: 'Mandap, entrance, stage, car décor', basePrice: 2000, imageUrl: '' }
 ];
 
 // Occasions & Festivals
@@ -179,7 +180,7 @@ export interface Occasion {
   description: string;
   recommendedBudget: number;
   suggestedFlowers: string[];
-  imageUrl: string;
+  imageUrl?: string;
 }
 
 export const OCCASIONS: Occasion[] = [
@@ -370,15 +371,16 @@ export interface Product {
   price: number;
   image: string;
   category: string;
+  label?: string;
 }
 
 export const products: Product[] = [
-  { id: 'prod1', name: 'Rose Bouquet', price: 899, image: 'https://images.unsplash.com/photo-1563241527-300e278d9f41?w=500&h=600&fit=crop', category: 'bouquets' },
-  { id: 'prod2', name: 'Peony Arrangement', price: 1299, image: 'https://images.unsplash.com/photo-1562690868-60bbe7293e94?w=500&h=600&fit=crop', category: 'bouquets' },
-  { id: 'prod3', name: 'Lavender Bundle', price: 599, image: 'https://images.unsplash.com/photo-1499914485622-a88fac536970?w=500&h=600&fit=crop', category: 'bouquets' },
-  { id: 'prod4', name: 'Wedding Varmala', price: 5000, image: 'https://images.unsplash.com/photo-1518709322009-8f85eb2b8b2e?w=500&h=600&fit=crop', category: 'varmalas' },
-  { id: 'prod5', name: 'Floral Jewellery Set', price: 2500, image: 'https://images.unsplash.com/photo-1523694576729-dc78a7a88ddc?w=500&h=600&fit=crop', category: 'jewellery' },
-  { id: 'prod6', name: 'Event Décor Package', price: 15000, image: 'https://images.unsplash.com/photo-1516196182-6c6df6cb91b7?w=500&h=600&fit=crop', category: 'decor' }
+  { id: 'prod1', name: 'Rose Bouquet', price: 899, image: 'https://images.unsplash.com/photo-1563241527-300e278d9f41?w=500&h=600&fit=crop', category: 'bouquets', label: 'Bouquet' },
+  { id: 'prod2', name: 'Peony Arrangement', price: 1299, image: 'https://images.unsplash.com/photo-1562690868-60bbe7293e94?w=500&h=600&fit=crop', category: 'bouquets', label: 'Bouquet' },
+  { id: 'prod3', name: 'Lavender Bundle', price: 599, image: 'https://images.unsplash.com/photo-1499914485622-a88fac536970?w=500&h=600&fit=crop', category: 'bouquets', label: 'Bouquet' },
+  { id: 'prod4', name: 'Wedding Varmala', price: 5000, image: 'https://images.unsplash.com/photo-1518709322009-8f85eb2b8b2e?w=500&h=600&fit=crop', category: 'varmalas', label: 'Varmala' },
+  { id: 'prod5', name: 'Floral Jewellery Set', price: 2500, image: 'https://images.unsplash.com/photo-1523694576729-dc78a7a88ddc?w=500&h=600&fit=crop', category: 'jewellery', label: 'Jewellery' },
+  { id: 'prod6', name: 'Event Décor Package', price: 15000, image: 'https://images.unsplash.com/photo-1516196182-6c6df6cb91b7?w=500&h=600&fit=crop', category: 'decor', label: 'Event Décor' }
 ];
 
 // Occasions with gallery images
