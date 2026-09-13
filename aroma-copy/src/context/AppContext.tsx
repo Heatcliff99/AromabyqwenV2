@@ -121,7 +121,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
             'manish-nagar': { quantity: 50, status: 'in-stock' as const },
             'khamla': { quantity: 40, status: 'in-stock' as const }
           },
-          pricePerUnit: f.pricePerUnit || 0,
+          pricePerUnit: f.price,
           unit: 'unit',
           isActive: true,
           lastUpdated: new Date(),
@@ -166,7 +166,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
             'manish-nagar': { quantity: 50, status: 'in-stock' as const },
             'khamla': { quantity: 40, status: 'in-stock' as const }
           },
-          pricePerUnit: f.pricePerUnit || 0,
+          pricePerUnit: f.price,
           unit: 'unit',
           isActive: true,
           lastUpdated: new Date(),
@@ -392,11 +392,11 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       id: generateId(),
       userId: 'guest',
       productType: customisation.productType || 'bouquet',
-      customization: { ...customisation },
+      customisation: { ...customisation },
       booking: { ...booking },
       status: 'received',
       totalPrice: calculateTotal(),
-      createdAt: new Date().toISOString(),
+      createdAt: new Date(),
       updatedAt: new Date(),
     };
 
