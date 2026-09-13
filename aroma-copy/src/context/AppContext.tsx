@@ -18,7 +18,7 @@ interface AppContextType {
   logout: () => void;
   
   // Customization
-  customisation: CustomizationState;
+  customization: CustomizationState;
   setProductType: (type: ProductType) => void;
   setBudgetTier: (tier: BudgetTier | null) => void;
   addFlower: (speciesId: string, color: string, quantity: number) => void;
@@ -204,7 +204,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     customisation.selectedFillers.forEach(({ fillerId, quantity }) => {
       const filler = FILLERS.find(f => f.id === fillerId);
       if (filler) {
-        total += filler.price * quantity;
+        total += filler.pricePerUnit * quantity;
       }
     });
 
@@ -436,7 +436,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         shop.shopId === shopId
           ? {
               ...shop,
-              items: shop.items.map(item =>
+              items: shop.items.map((item: any) =>
                 item.id === itemId ? { ...item, ...updates } : item
               ),
             }

@@ -14,7 +14,7 @@ const MOCK_ORDERS: Order[] = [
     userId: 'user1',
     productType: 'bouquet',
     occasion: 'birthday',
-    customisation: {
+    customization: {
       budgetTier: { amount: 500, label: '₹500', unlockedFlowers: ['seasonal', 'standard'] },
       selectedFlowers: [{ speciesId: 'rose', color: 'red', quantity: 12 }],
       selectedFillers: [{ fillerId: 'eucalyptus', quantity: 3 }],
@@ -24,7 +24,7 @@ const MOCK_ORDERS: Order[] = [
     booking: {
       date: '2025-01-15',
       time: '10:00',
-      dateTime: new Date('2025-01-15T10:00:00'),
+      dateTime: '2025-01-15T10:00:00',
       deliveryType: 'delivery',
       googleMapsLink: 'https://maps.google.com/?q=Nagpur',
       whatsappNumber: '+91 99999 99999',
@@ -32,7 +32,7 @@ const MOCK_ORDERS: Order[] = [
     },
     status: 'in-progress',
     totalPrice: 650,
-    createdAt: new Date('2025-01-10'),
+    createdAt: '2025-01-10',
     updatedAt: new Date('2025-01-11')
   }
 ]
@@ -44,22 +44,22 @@ interface OwnerDashboardProps {
 
 export default function OwnerDashboard({ isOpen, onClose }: OwnerDashboardProps) {
   const [activeTab, setActiveTab] = useState<'orders' | 'inventory' | 'calendar'>('orders')
-  const [selectedShop, setSelectedShop] = useState<ShopLocation>('manish-nagar')
+  const [selectedShop, setSelectedShop] = useState<string>('manishNagar')
   const [orders, setOrders] = useState<Order[]>(MOCK_ORDERS)
-  const [inventory, setInventory] = useState<Record<string, Record<ShopLocation, { quantity: number; status: string; availableFrom?: string }>>>({})
+  const [inventory, setInventory] = useState<Record<string, Record<string, { quantity: number; status: string; availableFrom?: string }>>>({})
 
   // Initialize inventory
   useState(() => {
     const initialInventory: typeof inventory = {}
     FLOWER_SPECIES.forEach(flower => {
       initialInventory[flower.id] = {
-        'manish-nagar': { quantity: 50, status: 'in-stock' },
+        'manishNagar': { quantity: 50, status: 'in-stock' },
         'khamla': { quantity: 30, status: 'in-stock' }
       }
     })
     FILLERS_FOLIAGE.forEach(filler => {
       initialInventory[filler.id] = {
-        'manish-nagar': { quantity: 100, status: 'in-stock' },
+        'manishNagar': { quantity: 100, status: 'in-stock' },
         'khamla': { quantity: 80, status: 'in-stock' }
       }
     })
@@ -119,9 +119,9 @@ export default function OwnerDashboard({ isOpen, onClose }: OwnerDashboardProps)
         <div className="dashboard-nav">
           <div className="shop-selector">
             <label>Shop Location:</label>
-            <select value={selectedShop} onChange={(e) => setSelectedShop(e.target.value as ShopLocation)}>
-              {SHOPS.map(shop => (
-                <option key={shop.id} value={shop.id}>{shop.name}</option>
+            <select value={selectedShop} onChange={(e) => setSelectedShop(e.target.value)}>
+              {SHOPS.map((shop: string) => (
+                <option key={shop} value={shop}>{shop === 'manishNagar' ? 'Manish Nagar' : 'Khamla'}</option>
               ))}
             </select>
           </div>
@@ -168,7 +168,7 @@ export default function OwnerDashboard({ isOpen, onClose }: OwnerDashboardProps)
                       <p><strong>Customer:</strong> {order.booking.customerName}</p>
                       <p><strong>WhatsApp:</strong> {order.booking.whatsappNumber}</p>
                       <p><strong>Type:</strong> {order.productType} {order.occasion && `(${order.occasion})`}</p>
-                      <p><strong>Date:</strong> {order.booking.dateTime ? order.booking.dateTime.toLocaleDateString() : `${order.booking.date} at ${order.booking.time}`}</p>
+                      <p><strong>Date:</strong> {order.booking.dateTime ? new Date(order.booking.dateTime).toLocaleDateString() : `${order.booking.date} at ${order.booking.time}`}</p>
                       <p><strong>Delivery:</strong> {order.booking.deliveryType === 'delivery' ? '🚚 Delivery' : '🏪 Pickup'}</p>
                       {order.booking.googleMapsLink && (
                         <p><strong>Location:</strong> <a href={order.booking.googleMapsLink} target="_blank" rel="noopener noreferrer">View on Maps</a></p>
@@ -271,12 +271,12 @@ export default function OwnerDashboard({ isOpen, onClose }: OwnerDashboardProps)
                 {orders.map(order => (
                   <div key={order.id} className="calendar-event">
                     <div className="event-date">
-                      {order.booking.dateTime ? order.booking.dateTime.toLocaleDateString('en-IN', { 
+                      {order.booking.dateTime ? new Date(order.booking.dateTime).toLocaleDateString('en-IN', { 
                         weekday: 'short', day: 'numeric', month: 'short' 
                       }) : order.booking.date}
                     </div>
                     <div className="event-time">
-                      {order.booking.dateTime ? order.booking.dateTime.toLocaleTimeString('en-IN', { 
+                      {order.booking.dateTime ? new Date(order.booking.dateTime).toLocaleTimeString('en-IN', { 
                         hour: '2-digit', minute: '2-digit' 
                       }) : order.booking.time}
                     </div>

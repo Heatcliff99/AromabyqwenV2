@@ -21,6 +21,13 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [showDashboard, setShowDashboard] = useState(false)
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
+  const navigate = useNavigate()
+  
+  const handleLogout = () => {
+    logout()
+    setUserDropdownOpen(false)
+    navigate('/')
+  }
   
   useEffect(() => {
     const handleScroll = () => {
