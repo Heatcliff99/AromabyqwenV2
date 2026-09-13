@@ -17,19 +17,50 @@ html {
   scroll-padding-top: 80px;
 }
 
-/* Mobile menu */
+/* Mobile menu - Responsive Navigation */
+.nav-links {
+  /* Desktop view - always visible */
+  display: flex !important;
+  flex-direction: row;
+  position: static;
+  background: transparent;
+  padding: 0;
+  gap: 40px;
+  border: none;
+}
+
+/* Mobile view - toggle visibility */
 @media (max-width: 768px) {
-  .nav-links.active {
-    display: flex;
-    flex-direction: column;
+  .nav-links {
     position: absolute;
     top: 100%;
     left: 0;
     right: 0;
+    flex-direction: column;
     background: var(--background);
     padding: 20px;
     gap: 15px;
     border-bottom: 1px solid var(--border);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .nav-links.open {
+    max-height: 500px;
+    display: flex;
+  }
+
+  /* Mobile menu button - visible only on mobile */
+  .mobile-menu-btn {
+    display: block !important;
+  }
+}
+
+/* Desktop view - hide mobile menu button */
+@media (min-width: 769px) {
+  .mobile-menu-btn {
+    display: none !important;
   }
 }
 
