@@ -9,25 +9,22 @@ bower_components/
 # Build artifacts
 dist/
 build/
-*.o
-*.obj
-*.out
+target/
 
-# Python specific
+# Python
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
+*.py.class
 .Python
 env/
 venv/
 .venv/
 .ENV
 .env
-.env.local
 .env.*
-.venv.bak/
-.python-version
+.env.local
 
 # Logs
 *.log
@@ -48,33 +45,61 @@ coverage/
 .DS_Store
 Thumbs.db
 
-# Testing
-.mypy_cache/
-.pytest_cache/
-.nyc_output/
+# OS
+.DS_Store
+Thumbs.db
+
+# Coverage
 coverage/
-
-# Distribution / packaging
-*.tar.gz
-*.whl
-*.egg-info/
-MANIFEST
-
-# Environment variables
-.env
-.env.local
-.env.*
-
-# TypeScript/JavaScript build
-*.tsbuildinfo
-.next/
-nuxt/dist/
-
-# Compiled CSS/JS
-*.css.map
-*.js.map
+htmlcov/
+.coverage
 
 # Temporary files
 *.tmp
-*~
+*.temp
+*.bak
+
+# Compressed files
+*.zip
+*.gz
+*.tar
+*.tgz
+*.bz2
+*.xz
+*.7z
+*.rar
+*.zst
+*.lz4
+*.lzh
+*.cab
+*.arj
+*.rpm
+*.deb
+*.Z
+*.lz
+*.lzo
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.tar.zst
+
+# MyPy
+.mypy_cache/
+__pycache__/
+
+# PyTest
+.pytest_cache/
+
+# Gradle
+.gradle/
+
+# Compiled files
+*.class
+*.o
+*.exe
+*.dll
+*.so
+*.a
+*.obj
+*.out
 ```
