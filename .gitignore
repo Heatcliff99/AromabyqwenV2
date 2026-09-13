@@ -6,7 +6,7 @@ node_modules/
 .yarn/
 bower_components/
 
-# Build outputs
+# Build artifacts
 dist/
 build/
 target/
@@ -26,11 +26,22 @@ venv/
 .env.*
 .env.local
 
-# IDE specific
+# Logs
+*.log
+
+# Coverage reports
+coverage/
+*.coverage
+.htmlcov/
+
+# IDE files
 .vscode/
 .idea/
 *.swp
 *.swo
+*.tmp
+
+# OS files
 .DS_Store
 Thumbs.db
 
