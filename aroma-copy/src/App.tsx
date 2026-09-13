@@ -18,9 +18,18 @@ function App() {
   const currentUser = context?.currentUser || null
   const logout = context?.logout || (() => {})
   const [isScrolled, setIsScrolled] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [userDropdownOpen, setUserDropdownOpen] = useState(false)
   const [showDashboard, setShowDashboard] = useState(false)
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
+  const navigate = useNavigate()
+  
+  const handleLogout = () => {
+    logout()
+    setUserDropdownOpen(false)
+    navigate('/')
+  }
   
   useEffect(() => {
     const handleScroll = () => {

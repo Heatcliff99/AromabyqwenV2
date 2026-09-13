@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Collection.css';
-import { products } from '../types';
+import { PRODUCTS as products } from '../types';
 
 const Collection: React.FC = () => {
   return (
@@ -18,7 +18,7 @@ const Collection: React.FC = () => {
           <Link to="/customise?category=bouquets" className="shop-btn">Shop Hand-Tied Bouquets</Link>
         </div>
         <div className="product-grid">
-          {products.filter(p => p.category === 'bouquets').map(product => (
+          {products.filter((p: any) => p.category === 'bouquets').map((product: any) => (
             <div key={product.id} className="product-card">
               <img src={product.image} alt={product.name} />
               <div className="product-info">
@@ -38,7 +38,7 @@ const Collection: React.FC = () => {
           <Link to="/customise?category=varmalas" className="shop-btn">Shop Varmalas</Link>
         </div>
         <div className="product-grid">
-          {products.filter(p => p.category === 'varmalas').map(product => (
+          {products.filter((p: any) => p.category === 'varmalas').map((product: any) => (
             <div key={product.id} className="product-card">
               <img src={product.image} alt={product.name} />
               <div className="product-info">
@@ -58,7 +58,7 @@ const Collection: React.FC = () => {
           <Link to="/customise?category=jewellery" className="shop-btn">Shop Floral Jewellery</Link>
         </div>
         <div className="product-grid">
-          {products.filter(p => p.category === 'jewellery').map(product => (
+          {products.filter((p: any) => p.category === 'jewellery').map((product: any) => (
             <div key={product.id} className="product-card">
               <img src={product.image} alt={product.name} />
               <div className="product-info">
@@ -78,7 +78,7 @@ const Collection: React.FC = () => {
           <Link to="/customise?category=decor" className="shop-btn">Shop Event Décor</Link>
         </div>
         <div className="product-grid">
-          {products.filter(p => p.category === 'decor').map(product => (
+          {products.filter((p: any) => p.category === 'decor').map((product: any) => (
             <div key={product.id} className="product-card">
               <img src={product.image} alt={product.name} />
               <div className="product-info">

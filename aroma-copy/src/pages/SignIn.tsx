@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './SignIn.css';
+import { AppContext } from '../context/AppContext';
 
 const SignIn: React.FC = () => {
   const context = useContext(AppContext);

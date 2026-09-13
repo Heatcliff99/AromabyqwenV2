@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Contact.css';
-import { shopLocations } from '../types';
+import { SHOP_LOCATIONS as shopLocations } from '../types';
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -28,7 +28,7 @@ const Contact: React.FC = () => {
       </header>
 
       <section className="shops-section">
-        {shopLocations.map(shop => (
+        {shopLocations.map((shop: any) => (
           <div key={shop.id} className="shop-card">
             <h2>{shop.name}</h2>
             <p className="shop-address">{shop.address}</p>

@@ -236,9 +236,9 @@ export function ProductCustomizer({ onClose, onComplete }: ProductCustomizerProp
                             <Minus size={16} />
                           </button>
                           <span>
-                            {customization.selectedFlowers
-                              .filter((f) => f.speciesId === flower.id)
-                              .reduce((sum: number, f) => sum + f.quantity, 0)}
+                            {customisation.selectedFlowers
+                              .filter((f: any) => f.speciesId === flower.id)
+                              .reduce((sum: number, f: any) => sum + f.quantity, 0)}
                           </span>
                           <button
                             onClick={() => {
@@ -282,7 +282,7 @@ export function ProductCustomizer({ onClose, onComplete }: ProductCustomizerProp
                   return (
                     <div key={filler.id} className="filler-card">
                       <h4>{filler.name}</h4>
-                      <p className="filler-price">₹{filler.price}/unit</p>
+                      <p className="filler.pricePerUnit">₹{filler.pricePerUnit}/unit</p>
                       {!selected ? (
                         <button
                           className="add-filler-btn"
@@ -486,7 +486,7 @@ export function ProductCustomizer({ onClose, onComplete }: ProductCustomizerProp
             <div className="summary-item">
               <span>Product Type</span>
               <strong>
-                {PRODUCT_TYPES.find((p) => p.type === customization.productType)?.name}
+                {PRODUCT_TYPES.find((p) => p.id === customisation.productType)?.name}
               </strong>
             </div>
             {customisation.budgetTier && (
@@ -498,7 +498,7 @@ export function ProductCustomizer({ onClose, onComplete }: ProductCustomizerProp
             {customisation.selectedFlowers.length > 0 && (
               <div className="summary-section">
                 <span>Flowers</span>
-                {customization.selectedFlowers.map((f, idx: number) => (
+                {customisation.selectedFlowers.map((f: any, idx: number) => (
                   <div key={idx} className="summary-subitem">
                     <span>
                       {getFlowerName(f.speciesId)} ({f.color}) × {f.quantity}
@@ -510,7 +510,7 @@ export function ProductCustomizer({ onClose, onComplete }: ProductCustomizerProp
             {customisation.selectedFillers.length > 0 && (
               <div className="summary-section">
                 <span>Fillers</span>
-                {customization.selectedFillers.map((f, idx: number) => (
+                {customisation.selectedFillers.map((f: any, idx: number) => (
                   <div key={idx} className="summary-subitem">
                     <span>
                       {getFillerName(f.fillerId)} × {f.quantity}
