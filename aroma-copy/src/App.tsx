@@ -16,14 +16,33 @@ function App() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [showDashboard, setShowDashboard] = useState(false)
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
   
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50)
     }
+    
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768)
+      if (window.innerWidth > 768) {
+        setMobileMenuOpen(false) // Close menu when resizing to desktop
+      }
+    }
+    
     window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    window.addEventListener('resize', handleResize)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', handleResize)
+    }
   }, [])
+
+  const handleNavLinkClick = () => {
+    if (isMobile) {
+      setMobileMenuOpen(false)
+    }
+  }
 
   return (
     <Router>
@@ -32,26 +51,30 @@ function App() {
         <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
           <div className="container">
             <nav className="nav">
-              <Link to="/" className="logo">AROMA FLOWERS CORNER</Link>
+              <Link to="/" className="logo" onClick={handleNavLinkClick}>AROMA FLOWERS CORNER</Link>
               
               <ul className={`nav-links ${mobileMenuOpen ? 'open' : ''}`}>
-                <li><Link to="/" className="nav-link">Home</Link></li>
-                <li><Link to="/collection" className="nav-link">Collection</Link></li>
-                <li><Link to="/customise" className="nav-link">Customise</Link></li>
-                <li><Link to="/occasions" className="nav-link">Occasions & Festivals</Link></li>
-                <li><Link to="/journal" className="nav-link">Journal</Link></li>
-                <li><Link to="/contact" className="nav-link">Contact</Link></li>
-                <li><Link to="/signin" className="nav-link">Sign In</Link></li>
+                <li><Link to="/" className="nav-link" onClick={handleNavLinkClick}>Home</Link></li>
+                <li><Link to="/collection" className="nav-link" onClick={handleNavLinkClick}>Collection</Link></li>
+                <li><Link to="/customise" className="nav-link" onClick={handleNavLinkClick}>Customise</Link></li>
+                <li><Link to="/occasions" className="nav-link" onClick={handleNavLinkClick}>Occasions & Festivals</Link></li>
+                <li><Link to="/journal" className="nav-link" onClick={handleNavLinkClick}>Journal</Link></li>
+                <li><Link to="/contact" className="nav-link" onClick={handleNavLinkClick}>Contact</Link></li>
+                <li><Link to="/signin" className="nav-link" onClick={handleNavLinkClick}>Sign In</Link></li>
               </ul>
 
               <div className="nav-icons">
                 <button className="nav-icon" onClick={() => setShowDashboard(true)} title="Owner Dashboard">
                   <Settings size={20} />
                 </button>
-                <Link to="/account" className="nav-icon">
+                <Link to="/account" className="nav-icon" onClick={handleNavLinkClick}>
                   <User size={20} />
                 </Link>
-                <button className="mobile-menu-btn" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+                <button 
+                  className="mobile-menu-btn" 
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  title="Toggle menu"
+                >
                   {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
                 </button>
               </div>
