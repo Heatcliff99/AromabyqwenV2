@@ -26,10 +26,7 @@ venv/
 .env.*
 .env.local
 
-# Logs
-*.log
-
-# IDE
+# IDE specific
 .vscode/
 .idea/
 *.swp
