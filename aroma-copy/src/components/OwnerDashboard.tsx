@@ -18,7 +18,7 @@ const MOCK_ORDERS: Order[] = [
       budgetTier: { amount: 500, label: '₹500', unlockedFlowers: ['seasonal', 'standard'] },
       selectedFlowers: [{ speciesId: 'rose', color: 'red', quantity: 12 }],
       selectedFillers: [{ fillerId: 'eucalyptus', quantity: 3 }],
-      wrappingStyle: { id: 'craft-paper', name: 'Craft Paper Wrap', basePrice: 50, productTypes: ['bouquet'] },
+      wrappingStyle: { id: 'craft-paper', name: 'Craft Paper Wrap', basePrice: 50, price: 50, productTypes: ['bouquet'] },
       addOns: []
     },
     booking: {

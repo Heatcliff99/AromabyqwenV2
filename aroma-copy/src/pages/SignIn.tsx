@@ -3,7 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import './SignIn.css';
 
 const SignIn: React.FC = () => {
-  const [isLogin, setIsLogin] = useState(true);
+  const context = useContext(AppContext);
+  const login = context?.login || (() => {});
+  const [isLogin, setIsLogin] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -13,146 +15,141 @@ const SignIn: React.FC = () => {
     referral: ''
   });
   const navigate = useNavigate();
+  
+  const handleGoogleLogin = () => {
+    console.log('Google login initiated');
+    const mockUser = {
+      id: 'google-' + Date.now(),
+      name: 'Google User',
+      email: 'user@gmail.com',
+      phone: '9923106684'
+    };
+    login(mockUser);
+    localStorage.setItem('aroma_user', JSON.stringify(mockUser));
+    navigate('/');
+  };
+  
+  const handlePhoneLogin = () => {
+    const phone = prompt('Enter your 10-digit phone number:');
+    if (phone && /^\d{10}$/.test(phone)) {
+      const otp = prompt('Enter OTP sent to ' + phone);
+      if (otp) {
+        const mockUser = {
+          id: 'phone-' + Date.now(),
+          name: 'Phone User',
+          phone,
+          email: ''
+        };
+        login(mockUser);
+        localStorage.setItem('aroma_user', JSON.stringify(mockUser));
+        navigate('/');
+      }
+    } else if (phone) {
+      alert('Please enter a valid 10-digit phone number');
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would integrate with auth provider
-    console.log('Auth submitted:', formData);
-    // Simulate login success
-    navigate('/account');
+    if (!formData.phone || formData.phone.length !== 10) {
+      alert('Please enter a valid 10-digit phone number');
+      return;
+    }
+    if (!isLogin && !formData.name) {
+      alert('Please enter your full name');
+      return;
+    }
+    if (!formData.password) {
+      alert('Please enter your password');
+      return;
+    }
+    
+    const mockUser = {
+      id: 'email-' + Date.now(),
+      name: formData.name || 'Email User',
+      email: formData.email,
+      phone: formData.phone
+    };
+    login(mockUser);
+    localStorage.setItem('aroma_user', JSON.stringify(mockUser));
+    navigate('/');
   };
 
   return (
     <div className="signin-page">
       <div className="auth-container">
         <div className="auth-card">
-          <h1>{isLogin ? 'Welcome back' : 'Create your account'}</h1>
-          <p className="auth-subtitle">
-            {isLogin ? 'Log in to your account' : 'Join us to order and track your bouquets'}
-          </p>
-
-          <div className="auth-options">
-            <button className="auth-btn google-btn">
-              <span className="btn-icon">G</span>
+          <h1 className="auth-title">{isLogin ? 'Welcome Back' : 'Create Account'}</h1>
+          
+          <div className="auth-methods">
+            <button className="auth-btn google" onClick={handleGoogleLogin}>
               Continue with Google
             </button>
-            <button className="auth-btn phone-btn">
-              <span className="btn-icon">📱</span>
+            <button className="auth-btn phone" onClick={handlePhoneLogin}>
               Continue with Phone Number
             </button>
           </div>
-
+          
           <div className="auth-divider">
             <span>or</span>
           </div>
-
+          
           <form onSubmit={handleSubmit} className="auth-form">
             {!isLogin && (
               <div className="form-group">
-                <label htmlFor="name">Full Name *</label>
+                <label>Full Name</label>
                 <input
                   type="text"
-                  id="name"
-                  required
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onChange={(e) => setFormData({...formData, name: e.target.value})}
                   placeholder="Your full name"
                 />
               </div>
             )}
-
+            
             <div className="form-group">
-              <label htmlFor="email">Email Address</label>
+              <label>Email</label>
               <input
                 type="email"
-                id="email"
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(e) => setFormData({...formData, email: e.target.value})}
                 placeholder="your@email.com"
               />
             </div>
-
+            
             <div className="form-group">
-              <label htmlFor="phone">Phone Number *</label>
+              <label>Phone Number (10 digits)</label>
               <input
                 type="tel"
-                id="phone"
-                required
-                pattern="[0-9]{10}"
                 value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                onChange={(e) => setFormData({...formData, phone: e.target.value.replace(/\D/g, '').slice(0, 10)})}
                 placeholder="9923106684"
+                maxLength={10}
               />
             </div>
-
-            {!isLogin && (
-              <>
-                <div className="form-group">
-                  <label htmlFor="address">Delivery Address</label>
-                  <textarea
-                    id="address"
-                    rows={3}
-                    value={formData.address}
-                    onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                    placeholder="Your delivery address in Nagpur"
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="referral">How did you hear about us?</label>
-                  <select
-                    id="referral"
-                    value={formData.referral}
-                    onChange={(e) => setFormData({ ...formData, referral: e.target.value })}
-                  >
-                    <option value="">Select an option</option>
-                    <option value="instagram">Instagram</option>
-                    <option value="friend">Friend/Family</option>
-                    <option value="google">Google Search</option>
-                    <option value="walkby">Walked by the shop</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
-              </>
-            )}
-
+            
             <div className="form-group">
-              <label htmlFor="password">Password</label>
+              <label>Password</label>
               <input
                 type="password"
-                id="password"
                 value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                onChange={(e) => setFormData({...formData, password: e.target.value})}
                 placeholder="••••••••"
               />
             </div>
-
-            {isLogin && (
-              <div className="forgot-password">
-                <a href="#">Forgot password?</a>
-              </div>
-            )}
-
-            <button type="submit" className="submit-auth-btn">
-              {isLogin ? 'Log In' : 'Create Account'}
+            
+            <button type="submit" className="auth-submit-btn">
+              {isLogin ? 'Log In' : 'Sign Up'}
             </button>
           </form>
-
+          
           <div className="auth-switch">
-            {isLogin ? (
-              <p>
-                Don't have an account?{' '}
-                <button onClick={() => setIsLogin(false)} className="switch-link">
-                  Create one
-                </button>
-              </p>
-            ) : (
-              <p>
-                Already have an account?{' '}
-                <button onClick={() => setIsLogin(true)} className="switch-link">
-                  Log in
-                </button>
-              </p>
-            )}
+            <p>
+              {isLogin ? "Don't have an account?" : "Already have an account?"}{' '}
+              <button onClick={() => setIsLogin(!isLogin)}>
+                {isLogin ? 'Create one' : 'Log in'}
+              </button>
+            </p>
           </div>
         </div>
       </div>

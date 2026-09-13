@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
-import { Menu, X, Settings, User } from 'lucide-react'
+import { useState, useEffect, useContext } from 'react'
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom'
+import { Menu, X, Settings, User, ShoppingCart, LogOut } from 'lucide-react'
 import './App.css'
+import { AppContext } from './context/AppContext'
 import Home from './pages/Home'
 import Collection from './pages/Collection'
 import Customise from './pages/Customise'
@@ -13,8 +14,11 @@ import Account from './pages/Account'
 import OwnerDashboard from './components/OwnerDashboard'
 
 function App() {
+  const context = useContext(AppContext)
+  const currentUser = context?.currentUser || null
+  const logout = context?.logout || (() => {})
   const [isScrolled, setIsScrolled] = useState(false)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
   const [showDashboard, setShowDashboard] = useState(false)
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768)
   
@@ -64,6 +68,45 @@ function App() {
               </ul>
 
               <div className="nav-icons">
+                {/* Cart Button */}
+                <button className="nav-icon cart-btn" onClick={() => navigate('/account')} title="Cart & Orders">
+                  <ShoppingCart size={20} />
+                  <span className="cart-count">0</span>
+                </button>
+                
+                {/* User Menu */}
+                {currentUser ? (
+                  <div className="user-menu-container">
+                    <button 
+                      className="nav-icon user-btn" 
+                      onClick={() => setUserDropdownOpen(!userDropdownOpen)}
+                      title={currentUser.name}
+                    >
+                      <User size={20} />
+                      <span className="user-name">{currentUser.name.split(' ')[0]}</span>
+                    </button>
+                    {userDropdownOpen && (
+                      <div className="user-dropdown">
+                        <Link to="/account" className="dropdown-item" onClick={() => setUserDropdownOpen(false)}>
+                          My Account
+                        </Link>
+                        <Link to="/account?tab=orders" className="dropdown-item" onClick={() => setUserDropdownOpen(false)}>
+                          Order History
+                        </Link>
+                        <button className="dropdown-item logout-btn" onClick={handleLogout}>
+                          <LogOut size={16} />
+                          Log Out
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <Link to="/signin" className="nav-icon" title="Sign In">
+                    <User size={20} />
+                  </Link>
+                )}
+                
+                {/* Owner Dashboard */}
                 <button className="nav-icon" onClick={() => setShowDashboard(true)} title="Owner Dashboard">
                   <Settings size={20} />
                 </button>
@@ -81,6 +124,68 @@ function App() {
             </nav>
           </div>
         </header>
+
+        {/* Hamburger Menu Panel */}
+        {menuOpen && (
+          <div className="menu-overlay" onClick={() => setMenuOpen(false)}>
+            <div className="menu-panel" onClick={(e) => e.stopPropagation()}>
+              {/* Section 1: Main Navigation */}
+              <div className="menu-section">
+                <h3 className="menu-section-title">Menu</h3>
+                <ul className="menu-nav-list">
+                  <li><Link to="/" className="menu-link" onClick={() => setMenuOpen(false)}>Home</Link></li>
+                  <li><Link to="/collection" className="menu-link" onClick={() => setMenuOpen(false)}>Collection</Link></li>
+                  <li><Link to="/customise" className="menu-link" onClick={() => setMenuOpen(false)}>Customise</Link></li>
+                  <li><Link to="/occasions" className="menu-link" onClick={() => setMenuOpen(false)}>Occasions & Festivals</Link></li>
+                  <li><Link to="/journal" className="menu-link" onClick={() => setMenuOpen(false)}>Journal</Link></li>
+                  <li><Link to="/contact" className="menu-link" onClick={() => setMenuOpen(false)}>Contact</Link></li>
+                  {!currentUser && (
+                    <li><Link to="/signin" className="menu-link" onClick={() => setMenuOpen(false)}>Sign In / Create Account</Link></li>
+                  )}
+                </ul>
+              </div>
+
+              {/* Section 2: Shop by Category Grid */}
+              <div className="menu-section">
+                <h3 className="menu-section-title">Shop by Category</h3>
+                <div className="category-grid">
+                  {[
+                    { name: 'Hand-Tied Bouquets', img: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=400', path: '/collection?category=bouquets' },
+                    { name: 'Varmalas', img: 'https://images.unsplash.com/photo-1549416877-b9c91e6b7f4a?w=400', path: '/collection?category=varmalas' },
+                    { name: 'Floral Jewellery', img: 'https://images.unsplash.com/photo-1596541673891-76be67b7ac51?w=400', path: '/collection?category=jewellery' },
+                    { name: 'Event Décor', img: 'https://images.unsplash.com/photo-1519225421980-715cb0202128?w=400', path: '/collection?category=decor' },
+                    { name: 'Baby Shower', img: 'https://images.unsplash.com/photo-1527525443983-6e60c75fff46?w=400', path: '/occasions#baby-shower' },
+                    { name: 'Wedding', img: 'https://images.unsplash.com/photo-1511285560982-1356c11d4606?w=400', path: '/occasions#wedding' },
+                    { name: 'Birthday', img: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400', path: '/occasions#birthday' },
+                    { name: 'Anniversary', img: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400', path: '/occasions#anniversary' },
+                    { name: 'Ganesh Chaturthi', img: 'https://images.unsplash.com/photo-1567113463300-102a7eb3e251?w=400', path: '/occasions#ganesh-chaturthi' },
+                    { name: 'Mahalakshmi Puja', img: 'https://images.unsplash.com/photo-1601662528567-526cd06f65e8?w=400', path: '/occasions#mahalakshmi' },
+                    { name: 'Navratri', img: 'https://images.unsplash.com/photo-1567593816199-6c56c4d4f8f6?w=400', path: '/occasions#navratri' },
+                    { name: 'Welcome / Inauguration', img: 'https://images.unsplash.com/photo-1530103862676-de3c9da59af7?w=400', path: '/occasions#welcome' },
+                    { name: 'Sympathy', img: 'https://images.unsplash.com/photo-1596541673891-76be67b7ac51?w=400', path: '/occasions#sympathy' },
+                    { name: 'Just Because', img: 'https://images.unsplash.com/photo-1490750967868-58cb75069ed6?w=400', path: '/occasions#just-because' }
+                  ].map((category, idx) => (
+                    <Link key={idx} to={category.path} className="category-tile" onClick={() => setMenuOpen(false)}>
+                      <img src={category.img} alt={category.name} loading="lazy" />
+                      <span className="category-name">{category.name}</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              {/* Footer: Call/WhatsApp + Hours */}
+              <div className="menu-footer">
+                <a href="tel:+919923106684" className="menu-cta-btn">
+                  📞 Call Now
+                </a>
+                <a href="https://wa.me/919923106684" className="menu-cta-btn whatsapp">
+                  💬 WhatsApp
+                </a>
+                <p className="menu-hours">🕐 Open daily: 9:00 AM – 10:00 PM</p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Main Content */}
         <main>

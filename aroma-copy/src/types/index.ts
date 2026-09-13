@@ -1,7 +1,7 @@
 // Customization State
 export interface CustomizationState {
   productType: ProductType | null;
-  budgetTier: number | null;
+  budgetTier: BudgetTier | null;
   selectedFlowers: Array<{
     speciesId: string;
     color: string;
@@ -11,7 +11,7 @@ export interface CustomizationState {
     fillerId: string;
     quantity: number;
   }>;
-  wrappingStyle: string | null;
+  wrappingStyle: WrappingStyle | null;
   ribbonColor?: string;
   addOns?: AddOn[];
   inspirationImage?: string;
